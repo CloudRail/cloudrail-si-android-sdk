@@ -1,4 +1,4 @@
-# CloudRail - Integrate Mulitple Services With Just One API
+# CloudRail - Integrate Multiple Services With Just One API
 
 <p align="center">
   <img src="http://cloudrail.com/wp-content/uploads/2016/05/cloudrail_SI_github.png"/>
