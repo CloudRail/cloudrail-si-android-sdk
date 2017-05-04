@@ -1,3 +1,9 @@
+- 2.17.0 -
+
+* Correctly retrieve username and user login for Microsoft
+* Retrieve the full metadata through getChildrenPage of GoogleDrive
+* Fix an infinite loop that occurred in getChildren of GoogleDrive
+
 - 2.16.6 -
 
 * Fix an issue with GoogleDrive where the getChildren method does not return all metadata correctly
