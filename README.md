@@ -1,4 +1,5 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-CloudRail-brightgreen.svg?style=flat-square)](https://android-arsenal.com/details/1/3604)
+[![Maven Central](https://img.shields.io/maven-central/v/com.cloudrail/cloudrail-si-android.svg?style=flat-square)](http://search.maven.org/#search%7Cga%7C1%7Ca:%22cloudrail-si-android%22)
 
 <p align="center">
   <img width="200px" src="http://cloudrail.github.io/img/cloudrail_logo_github.png"/>
