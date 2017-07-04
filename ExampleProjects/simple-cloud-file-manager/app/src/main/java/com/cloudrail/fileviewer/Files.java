@@ -1,14 +1,23 @@
 package com.cloudrail.fileviewer;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +27,7 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -27,6 +37,7 @@ import android.widget.Toast;
 
 import com.cloudrail.si.types.CloudMetaData;
 import com.cloudrail.si.interfaces.CloudStorage;
+import com.cloudrail.si.types.SpaceAllocation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -141,6 +152,22 @@ public class Files extends Fragment {
             }
         }
 
+        final TextView tv2 = (TextView) v.findViewById(R.id.allocation);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final SpaceAllocation alloc = getService().getAllocation();
+                getOwnActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String used = getSizeString(alloc.getUsed());
+                        String total = getSizeString(alloc.getTotal());
+                        tv2.setText(used + "MB used of " + total + "MB");
+                    }
+                });
+            }
+        }).start();
+
         this.list = (ListView) v.findViewById(R.id.listView);
 
         this.list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -220,6 +247,18 @@ public class Files extends Fragment {
                                 removeItem();
                                 return true;
                             }
+                            case R.id.action_copy: {
+                                copyItem();
+                                return true;
+                            }
+                            case R.id.action_create_share_link: {
+                                createShareLink();
+                                return true;
+                            }
+                            case R.id.action_move: {
+                                moveItem();
+                                return true;
+                            }
                             default:
                                 return false;
                         }
@@ -238,6 +277,19 @@ public class Files extends Fragment {
         this.updateList();
 
         return v;
+    }
+
+    private String getSizeString(Long size) {
+        String units[] = {"Bytes", "kB", "MB", "GB", "TB"};
+        String unit = units[0];
+        for (int i = 1; i < 5; i++) {
+            if (size > 1024) {
+                size /= 1024;
+                unit = units[i];
+            }
+        }
+
+        return size + unit;
     }
 
     @Override
@@ -277,8 +329,64 @@ public class Files extends Fragment {
                 }
                 break;
             }
+            case R.id.action_create_folder: {
+                clickCreateFolder();
+            }
         }
         return true;
+    }
+
+    private void clickCreateFolder() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Enter Folder Name");
+
+        // Set up the input
+        final EditText input = new EditText(context);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                createFolder(input.getText().toString());
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void createFolder(String name) {
+        String next = currentPath;
+        if(!currentPath.equals("/")) {
+            next += "/";
+        }
+        next += name;
+        final String finalNext = next;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getService().createFolder(finalNext);
+                List<CloudMetaData> items = getService().getChildren(currentPath);
+                final List<CloudMetaData> files = sortList(items);
+
+                getOwnActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CloudMetadataAdapter listAdapter = new CloudMetadataAdapter(context, R.layout.list_item, files);
+                        list.setAdapter(listAdapter);
+                        stopSpinner();
+                    }
+                });
+            }
+        }).start();
     }
 
     public boolean onBackPressed() {
@@ -315,6 +423,17 @@ public class Files extends Fragment {
                         stopSpinner();
                     }
                 });
+            }
+        }).start();
+    }
+
+    private void search(final String search) {
+        this.startSpinner();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<CloudMetaData> items = getService().search(search);
+                final List<CloudMetaData> files = sortList(items);
             }
         }).start();
     }
@@ -385,6 +504,43 @@ public class Files extends Fragment {
                 next += name;
                 getService().delete(next);
                 updateList();
+            }
+        }).start();
+    }
+
+    private void copyItem() {
+
+    }
+
+    private void moveItem() {
+
+    }
+
+    private void createShareLink() {
+        this.startSpinner();
+        TextView tv = (TextView) this.selectedItem.findViewById(R.id.list_item);
+        final String name = (String) tv.getText();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String next = currentPath;
+                if(!currentPath.equals("/")) {
+                    next += "/";
+                }
+                next += name;
+                final String shareLink = getService().createShareLink(next);
+
+                getOwnActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Sharable Link", shareLink);
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(context, "Copied link to clipboard\n" + shareLink, Toast.LENGTH_LONG).show();
+                    }
+                });
+                stopSpinner();
             }
         }).start();
     }

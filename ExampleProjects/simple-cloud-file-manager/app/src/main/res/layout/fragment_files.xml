@@ -19,10 +19,21 @@
         android:text="Service Name"
         android:id="@+id/service_name" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:paddingTop="30dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:text="Allocation"
+        android:id="@+id/allocation" />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="30dp"
+        android:paddingTop="60dp"
         android:id="@+id/listView"
         android:choiceMode="singleChoice" />
 

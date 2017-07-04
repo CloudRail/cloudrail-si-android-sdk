@@ -7,4 +7,22 @@
         android:title="@string/action_delete"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_action_delete"/>
+    <item
+        android:id="@+id/action_move"
+        android:title="Move"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_compare_arrows_white_24dp"
+        />
+    <item
+        android:id="@+id/action_copy"
+        android:title="Copy"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_content_copy_white_24dp"
+        />
+    <item
+        android:id="@+id/action_create_share_link"
+        android:title="Create Share Link"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_share_white_24dp"
+        />
 </menu>

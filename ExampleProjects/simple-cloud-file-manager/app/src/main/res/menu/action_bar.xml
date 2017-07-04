@@ -12,4 +12,16 @@
         android:title="@string/action_upload"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_file_file_upload"/>
+    <item
+        android:id="@+id/action_create_folder"
+        android:title="Create Folder"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_create_new_folder_white_24dp"
+        />
+    <item
+        android:id="@+id/action_search"
+        android:title="Search"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_search_white_24dp"
+        />
 </menu>
