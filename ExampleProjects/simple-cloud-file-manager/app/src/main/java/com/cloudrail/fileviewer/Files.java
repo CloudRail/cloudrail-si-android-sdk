@@ -162,7 +162,7 @@ public class Files extends Fragment {
                     public void run() {
                         String used = getSizeString(alloc.getUsed());
                         String total = getSizeString(alloc.getTotal());
-                        tv2.setText(used + "MB used of " + total + "MB");
+                        tv2.setText(used + " used of " + total);
                     }
                 });
             }
@@ -332,6 +332,9 @@ public class Files extends Fragment {
             case R.id.action_create_folder: {
                 clickCreateFolder();
             }
+            case R.id.action_search: {
+                getOwnActivity().onSearchRequested();
+            }
         }
         return true;
     }
@@ -427,13 +430,24 @@ public class Files extends Fragment {
         }).start();
     }
 
-    private void search(final String search) {
+    public void search(final String search) {
         this.startSpinner();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 List<CloudMetaData> items = getService().search(search);
                 final List<CloudMetaData> files = sortList(items);
+
+                getOwnActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CloudMetadataAdapter listAdapter = new CloudMetadataAdapter(context, R.layout.list_item, files);
+                        list.setAdapter(listAdapter);
+                        stopSpinner();
+                    }
+                });
+
+
             }
         }).start();
     }

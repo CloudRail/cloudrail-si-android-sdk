@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.cloudrail.si.CloudRail;
 import com.vistrav.ask.Ask;
@@ -29,6 +31,8 @@ public class FileViewer extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_viewer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -144,7 +148,13 @@ public class FileViewer extends AppCompatActivity
 
     @Override
     protected void onNewIntent(Intent intent) {
-        if(intent.getCategories().contains("android.intent.category.BROWSABLE")) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Files fragment = (Files) getFragmentManager().findFragmentByTag("files");
+            if (fragment != null) {
+                fragment.search(query);
+            }
+        } else if(intent.getCategories().contains("android.intent.category.BROWSABLE")) {
             CloudRail.setAuthenticationResponse(intent);
         }
         super.onNewIntent(intent);

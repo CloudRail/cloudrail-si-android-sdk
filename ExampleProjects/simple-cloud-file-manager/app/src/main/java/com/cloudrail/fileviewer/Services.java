@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author patrick
  */
 class Services {
-    private final static String CLOUDRAIL_LICENSE_KEY = "<Your CloudRail License Key>";
+    private final static String CLOUDRAIL_LICENSE_KEY = "5947b1545f3a46262b370388";
     private final static Services ourInstance = new Services();
 
     private final AtomicReference<CloudStorage> dropbox = new AtomicReference<>();
@@ -39,7 +39,7 @@ class Services {
     }
 
     private void initDropbox() {
-        dropbox.set(new Dropbox(context, "u4gevj9clhvdjug", "9ol49hdlk8by9v9"));
+        dropbox.set(new Dropbox(context, "yu0tseem32w28ke", "id1gu0h92gca3cz"));
     }
 
     private void initBox() {

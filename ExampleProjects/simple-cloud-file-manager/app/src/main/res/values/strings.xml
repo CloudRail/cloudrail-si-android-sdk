@@ -19,4 +19,6 @@
     <string name="introduction">Welcome to the CloudRail File Viewer! This application allows you to interact with all your cloud storage accounts. You can browse through your folders and upload, remove and download files. To get started just select a service within the menu on the lefthand side.</string>
     <string name="doculink"><a href="http://docs.cloudrail.com">docs.cloudrail.com</a></string>
     <string name="for_devs">As a developer, CloudRail offers you an abstraction layer for a variety of services which makes integrating those easier than ever before! For further information visit:</string>
+
+    <string name="search_hint">Search Cloud Storage</string>
 </resources>
