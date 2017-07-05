@@ -3,6 +3,7 @@ const express = require('express');
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
 const cloudrail = require('cloudrail-si');
+cloudrail.Settings.setKey(“[CloudRailKey]”);
 const app = express();
 const userSchema = new mongoose.Schema({
     uid: String,
@@ -32,7 +33,7 @@ app.use(bodyParser.json());
  * When the user has performed the authentication in the frontend part, the
  * obtained access token will be send to the backend and received in this method.
  * This method will instantiate the correct service instance and retrieves the
- * user information from the choosen service (including the user identifier).
+ * user information from the chosen service (including the user identifier).
  * This identifier will be searched in the database. If there is no entry in the
  * database it will create a new user entry. After that it returns a unique token
  * that can be used by the frontend to do further requests to this service.

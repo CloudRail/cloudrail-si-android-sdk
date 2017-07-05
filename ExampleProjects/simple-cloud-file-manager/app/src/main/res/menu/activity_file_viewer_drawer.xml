@@ -23,6 +23,14 @@
             android:id="@+id/onedrive"
             android:icon="@drawable/ic_onedrive"
             android:title="OneDrive" />
+        <item
+            android:id="@+id/egnyte"
+            android:icon="@drawable/egnyte"
+            android:title="Egnyte" />
+        <item
+            android:id="@+id/onedriveBusiness"
+            android:icon="@drawable/ic_onedrive"
+            android:title="OneDrive Business" />
     </group>
 
 </menu>

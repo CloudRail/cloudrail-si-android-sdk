@@ -9,8 +9,10 @@ import com.cloudrail.si.exceptions.ParseException;
 import com.cloudrail.si.services.Box;
 import com.cloudrail.si.interfaces.CloudStorage;
 import com.cloudrail.si.services.Dropbox;
+import com.cloudrail.si.services.Egnyte;
 import com.cloudrail.si.services.GoogleDrive;
 import com.cloudrail.si.services.OneDrive;
+import com.cloudrail.si.services.OneDriveBusiness;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -28,6 +30,8 @@ class Services {
     private final AtomicReference<CloudStorage> box = new AtomicReference<>();
     private final AtomicReference<CloudStorage> googledrive = new AtomicReference<>();
     private final AtomicReference<CloudStorage> onedrive = new AtomicReference<>();
+    private final AtomicReference<CloudStorage> onedrivebusiness = new AtomicReference<>();
+    private final AtomicReference<CloudStorage> egnyte = new AtomicReference<>();
 
     private Activity context = null;
 
@@ -55,6 +59,14 @@ class Services {
         onedrive.set(new OneDrive(context, "000000004018F12F", "lGQPubehDO6eklir1GQmIuCPFfzwihMo"));
     }
 
+    private void initOneDriveBusiness() {
+        onedrivebusiness.set(new OneDriveBusiness(context, "[Client ID]", "[Client Secret]"));
+    }
+
+    private void egnyte() {
+        egnyte.set(new Egnyte(context, "[Domain]", "[Client ID]", "[Client Secret]"));
+    }
+
     // --------- Public Methods -----------
     void prepare(Activity context) {
         this.context = context;
@@ -77,6 +89,10 @@ class Services {
             if (persistent != null) googledrive.get().loadAsString(persistent);
             persistent = sharedPreferences.getString("onedrivePersistent", null);
             if (persistent != null) onedrive.get().loadAsString(persistent);
+            persistent = sharedPreferences.getString("onedrivebusinessPersistent", null);
+            if (persistent != null) onedrivebusiness.get().loadAsString(persistent);
+            persistent = sharedPreferences.getString("egnytePersistent", null);
+            if (persistent != null) egnyte.get().loadAsString(persistent);
         } catch (ParseException e) {}
     }
 
@@ -96,6 +112,11 @@ class Services {
             case 4:
                 ret = this.onedrive;
                 break;
+            case 5:
+                ret = this.onedrivebusiness;
+                break;
+            case 6:
+                ret = this.egnyte;
             default:
                 throw new IllegalArgumentException("Unknown service!");
         }
@@ -111,6 +132,8 @@ class Services {
         editor.putString("boxPersistent", box.get().saveAsString());
         editor.putString("googledrivePersistent", googledrive.get().saveAsString());
         editor.putString("onedrivePersistent", onedrive.get().saveAsString());
+        editor.putString("onedrivebusinessPersistent", googledrive.get().saveAsString());
+        editor.putString("egnytePersistent", onedrive.get().saveAsString());
         editor.apply();
     }
 }

@@ -12,9 +12,16 @@ import android.widget.Button;
 
 import com.cloudrail.si.interfaces.Profile;
 import com.cloudrail.si.services.Facebook;
+import com.cloudrail.si.services.GitHub;
 import com.cloudrail.si.services.GooglePlus;
+import com.cloudrail.si.services.Heroku;
+import com.cloudrail.si.services.Instagram;
 import com.cloudrail.si.services.LinkedIn;
+import com.cloudrail.si.services.MicrosoftLive;
+import com.cloudrail.si.services.ProductHunt;
+import com.cloudrail.si.services.Slack;
 import com.cloudrail.si.services.Twitter;
+import com.cloudrail.si.services.Yahoo;
 
 
 /**
@@ -37,19 +44,47 @@ public class ChooseService extends Fragment {
 
             switch (v.getId()) {
                 case R.id.Facebook: {
-                    profile = new Facebook(mContext, "1021498147933996", "67d976115ced3937142b92dd9801f012");
+                    profile = new Facebook(mContext, "[Client Identifier]", "[Client Secret]");
                     break;
                 }
                 case R.id.Twitter: {
-                    profile = new Twitter(mContext, "7wDl9gfhMWB7UUa2xXdbfoYjS", "nAJJ8bvX4KBGsgWXNLctXQKnwmbWtidLW7bfkB4oiLwsvPrjOs");
+                    profile = new Twitter(mContext, "[Client Identifier]", "[Client Secret]");
                     break;
                 }
                 case R.id.GooglePlus: {
-                    profile = new GooglePlus(mContext, "1003356524097-3of9si9hiqdkf116d90aa51g4ibkro9f.apps.googleusercontent.com", "srmYxA2hMOcgecTkw69B4ck2");
+                    profile = new GooglePlus(mContext, "[Client Identifier]", "[Client Secret]");
                     break;
                 }
                 case R.id.LinkedIn: {
-                    profile = new LinkedIn(mContext, "77anwn10tgmgui", "7Cwx2g0yPjmOuprv");
+                    profile = new LinkedIn(mContext, "[Client Identifier]", "[Client Secret]");
+                    break;
+                }
+                case R.id.GitHub: {
+                    profile = new GitHub(mContext, "[Client Identifier]", "[Client Secret]");
+                    break;
+                }
+                case R.id.Heroku: {
+                    profile = new Heroku(mContext, "[Client Identifier]", "[Client Secret]");
+                    break;
+                }
+                case R.id.Instagram: {
+                    profile = new Instagram(mContext, "[Client Identifier]", "[Client Secret]");
+                    break;
+                }
+                case R.id.producthunt: {
+                    profile = new ProductHunt(mContext, "[Client Identifier]", "[Client Secret]");
+                    break;
+                }
+                case R.id.slack: {
+                    profile = new Slack(mContext, "[Client Identifier]", "[Client Secret]");
+                    break;
+                }
+                case R.id.WindowsLive: {
+                    profile = new MicrosoftLive(mContext, "[Client Identifier]", "[Client Secret]");
+                    break;
+                }
+                case R.id.Yahoo: {
+                    profile = new Yahoo(mContext, "[Client Identifier]", "[Client Secret]");
                     break;
                 }
                 default:
@@ -88,6 +123,20 @@ public class ChooseService extends Fragment {
         google.setOnClickListener(mServiceSelectedListener);
         Button linkedin = (Button) v.findViewById(R.id.LinkedIn);
         linkedin.setOnClickListener(mServiceSelectedListener);
+        Button gitHub = (Button) v.findViewById(R.id.GitHub);
+        gitHub.setOnClickListener(mServiceSelectedListener);
+        Button heroku = (Button) v.findViewById(R.id.Heroku);
+        heroku.setOnClickListener(mServiceSelectedListener);
+        Button instagram = (Button) v.findViewById(R.id.Instagram);
+        instagram.setOnClickListener(mServiceSelectedListener);
+        Button producthunt = (Button) v.findViewById(R.id.producthunt);
+        producthunt.setOnClickListener(mServiceSelectedListener);
+        Button slack = (Button) v.findViewById(R.id.slack);
+        slack.setOnClickListener(mServiceSelectedListener);
+        Button windowsLive = (Button) v.findViewById(R.id.WindowsLive);
+        windowsLive.setOnClickListener(mServiceSelectedListener);
+        Button yahoo = (Button) v.findViewById(R.id.Yahoo);
+        yahoo.setOnClickListener(mServiceSelectedListener);
 
         return v;
     }
@@ -134,7 +183,7 @@ public class ChooseService extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnTokenListener {
-        void onToken(String token);
+        void onToken(String[] token);
     }
 
     /**
@@ -143,18 +192,27 @@ public class ChooseService extends Fragment {
      * the new user into the database if he isn't registered already. Server returns a token that
      * can be used for further requests to that server.
      */
-    private class PerformLogin extends AsyncTask<Profile, Void, String> {
+    private class PerformLogin extends AsyncTask<Profile, Void, String[]> {
 
         @Override
-        protected String doInBackground(Profile... params) {
+        protected String[] doInBackground(Profile... params) {
             Profile profile = params[0];
             profile.login();
 
-            return new Communication().registerUserSync(profile);
+            String token = new Communication().registerUserSync(profile);
+            System.out.println("ChooseService::token = " + token);
+
+            String name = profile.getFullName();
+            String mail = profile.getEmail();
+            String url = profile.getPictureURL();
+
+//            return new Communication().registerUserSync(profile);
+
+            return new String[]{token, name, mail, url};
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(String[] s) {
             mListener.onToken(s);
         }
     }

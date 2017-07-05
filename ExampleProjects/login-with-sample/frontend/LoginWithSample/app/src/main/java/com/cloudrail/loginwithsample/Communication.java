@@ -1,5 +1,6 @@
 package com.cloudrail.loginwithsample;
 
+import com.cloudrail.si.CloudRail;
 import com.cloudrail.si.interfaces.Profile;
 import com.cloudrail.si.servicecode.commands.json.jsonsimple.JSONObject;
 import com.cloudrail.si.servicecode.commands.json.jsonsimple.parser.JSONParser;
@@ -29,7 +30,10 @@ public class Communication {
         body.put("name", getServiceName(profile));
 
         RequestBody requestBody = RequestBody.create(JSON, body.toJSONString());
-        Request request = new Request.Builder().url(BASE + "/user/authenticate").post(requestBody).build();
+        Request request = new Request.Builder().url(BASE + "/user/authenticate")
+//                .addHeader("Authorization", CloudRail.getAppKey())
+//                .addHeader("Authorization", "token " + CloudRail.getAppKey())
+                .post(requestBody).build();
 
         Response response = null;
         try {
@@ -43,13 +47,17 @@ public class Communication {
 
     public String getStatus(String token) {
         Request request = new Request.Builder().url(BASE + "/user/status")
+//                .addHeader("Authorization " + CloudRail.getAppKey(), "token " + token).get().build();
                 .addHeader("Authorization", "token " + token).get().build();
         Response response = null;
         String status = null;
 
         try {
             response = mClient.newCall(request).execute();
+            System.out.println(response.body().string());
             JSONObject resp = (JSONObject) new JSONParser().parse(response.body().string());
+            System.out.println("Communication::hello");
+            System.out.println(resp.toString());
             status = (String) resp.get("status");
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,9 +70,11 @@ public class Communication {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("status", status);
         RequestBody requestBody = RequestBody.create(JSON, jsonObject.toJSONString());
-
+System.out.println("Communication::appKey= " + CloudRail.getAppKey());
         Request request = new Request.Builder().url(BASE + "/user/status")
-                .addHeader("Authorization", "token " + token).post(requestBody).build();
+                .addHeader("Authorization", "token " + token)
+//                .addHeader("Token", token)
+                .post(requestBody).build();
 
         Response response = null;
         try {
@@ -74,7 +84,7 @@ public class Communication {
         }
 
         if(response.code() != 200) {
-            throw new RuntimeException("Updating status failed!");
+            throw new RuntimeException("Updating status failed with code " + response.code() + "!");
         }
     }
 

@@ -1,6 +1,9 @@
 package com.cloudrail.fileviewer;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cloudrail.si.interfaces.CloudStorage;
 import com.cloudrail.si.types.CloudMetaData;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -18,10 +23,16 @@ import java.util.List;
 public class CloudMetadataAdapter extends ArrayAdapter<CloudMetaData> {
 
     private List<CloudMetaData> data;
+    private CloudStorage service;
 
     public CloudMetadataAdapter(Context context, int resource, List<CloudMetaData> objects) {
         super(context, resource, objects);
         this.data = objects;
+    }
+    public CloudMetadataAdapter(Context context, int resource, List<CloudMetaData> objects, CloudStorage service) {
+        super(context, resource, objects);
+        this.data = objects;
+        this.service = service;
     }
 
     @Override
@@ -49,16 +60,26 @@ public class CloudMetadataAdapter extends ArrayAdapter<CloudMetaData> {
             v = inflater.inflate(R.layout.list_item, null);
         }
 
-        CloudMetaData cmd = this.data.get(position);
+        final CloudMetaData cmd = this.data.get(position);
 
         if(cmd != null) {
-            ImageView img = (ImageView) v.findViewById(R.id.icon);
+            final ImageView img = (ImageView) v.findViewById(R.id.icon);
 
             if(img != null) {
                 if(cmd.getFolder()) {
                     img.setImageResource(R.drawable.ic_file_folder);
                 } else {
                     img.setImageResource(R.drawable.ic_editor_insert_drive_file);
+/*                    if (service != null) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                InputStream is = service.getThumbnail(cmd.getPath());
+                                BitmapDrawable bmd = new BitmapDrawable(BitmapFactory.decodeStream(is));
+                                img.setImageDrawable(bmd);
+                            }
+                        }).start();
+                    }*/
                 }
             }
 

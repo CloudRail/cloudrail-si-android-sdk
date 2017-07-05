@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.InputStream;
+import java.net.URL;
 
 
 /**
@@ -24,6 +29,9 @@ import android.widget.TextView;
  */
 public class EditStatus extends Fragment {
     private static final String ARG_TOKEN = "token";
+    private static final String ARG_IMAGE_URL = "imageUrl";
+    private static final String ARG_NAME = "name";
+    private static final String ARG_MAIL = "mail";
 
     private final View.OnClickListener mUpdateStatusListener = new View.OnClickListener() {
         @Override
@@ -53,6 +61,9 @@ public class EditStatus extends Fragment {
     };
 
     private String mToken;
+    private String mUrl;
+    private String mName;
+    private String mMail;
     private TextView mStatusView;
     private Context mContext;
 
@@ -68,10 +79,13 @@ public class EditStatus extends Fragment {
      * @param token The token that can be used to talk to the server.
      * @return A new instance of fragment EditStatus.
      */
-    public static EditStatus newInstance(String token) {
+    public static EditStatus newInstance(String[] token) {
         EditStatus fragment = new EditStatus();
         Bundle args = new Bundle();
-        args.putString(ARG_TOKEN, token);
+        args.putString(ARG_TOKEN, token[0]);
+        args.putString(ARG_NAME, token[1]);
+        args.putString(ARG_MAIL, token[2]);
+        args.putString(ARG_IMAGE_URL, token[3]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,6 +95,9 @@ public class EditStatus extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mToken = getArguments().getString(ARG_TOKEN);
+            mUrl = getArguments().getString(ARG_IMAGE_URL);
+            mName = getArguments().getString(ARG_NAME);
+            mMail = getArguments().getString(ARG_MAIL);
         }
     }
 
@@ -96,6 +113,31 @@ public class EditStatus extends Fragment {
         update.setOnClickListener(mUpdateStatusListener);
 
         new ReceiveCurrentStatus().execute();
+
+
+        final ImageView imageView = (ImageView) v.findViewById(R.id.imageView2);
+        TextView nameView = (TextView) v.findViewById(R.id.name);
+        TextView mailView = (TextView) v.findViewById(R.id.email);
+
+        nameView.setText(mName);
+        mailView.setText(mMail);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    InputStream is = (InputStream) new URL(mUrl).getContent();
+                    final Drawable d = Drawable.createFromStream(is, null);
+                    ((Activity) mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageDrawable(d);
+                        }
+                    });
+                } catch (Exception e) {
+                }
+            }
+        }).start();
 
         return v;
     }

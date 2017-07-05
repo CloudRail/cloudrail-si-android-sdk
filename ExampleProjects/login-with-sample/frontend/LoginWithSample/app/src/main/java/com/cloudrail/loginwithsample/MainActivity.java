@@ -6,6 +6,8 @@ import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.cloudrail.si.CloudRail;
+
 public class MainActivity extends AppCompatActivity implements ChooseService.OnTokenListener {
 
     private String mCurrentFragment;
@@ -13,6 +15,7 @@ public class MainActivity extends AppCompatActivity implements ChooseService.OnT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CloudRail.setAppKey("5947b1545f3a46262b370388");
         setContentView(R.layout.activity_main);
 
         browseToServiceSelection();
@@ -28,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements ChooseService.OnT
     }
 
     @Override
-    public void onToken(String token) {
+    public void onToken(String[] token) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment content = EditStatus.newInstance(token);

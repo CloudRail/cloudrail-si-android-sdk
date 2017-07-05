@@ -4,8 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.cloudrail.loginwithsample.ChooseService">
 
-    <!-- TODO: Update blank fragment layout -->
-
+<ScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -47,5 +48,69 @@
             android:minHeight="80dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GitHub"
+            android:id="@+id/GitHub"
+            android:minHeight="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Heroku"
+            android:id="@+id/Heroku"
+            android:minHeight="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Instagram"
+            android:id="@+id/Instagram"
+            android:minHeight="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Product Hunt"
+            android:id="@+id/producthunt"
+            android:minHeight="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Slack"
+            android:id="@+id/slack"
+            android:minHeight="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="WindowsLive"
+            android:id="@+id/WindowsLive"
+            android:minHeight="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Yahoo!"
+            android:id="@+id/Yahoo"
+            android:minHeight="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
     </LinearLayout>
+</ScrollView>
 </FrameLayout>
