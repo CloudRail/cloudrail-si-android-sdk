@@ -114,6 +114,6 @@ switch (v.getId()) {
 
 ## Using The App
 
-![Screenshot 1](cloudrail.github.io/img/android_demo_socialProfile.png)
+![Screenshot 1](https://cloudrail.github.io/img/android_demo_socialProfile.png)
 
 On startup, the user chooses which Service they want to use. Afterwards, they are redirected to the specified service's authentication site. The app will then show some profile information that is received from the service and the user's status that is stored on the local server. When using the profile for the first time, the status will be empty.
