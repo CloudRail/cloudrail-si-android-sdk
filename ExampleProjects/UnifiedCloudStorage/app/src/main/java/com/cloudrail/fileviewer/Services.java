@@ -43,29 +43,31 @@ class Services {
     }
 
     private void initDropbox() {
-        dropbox.set(new Dropbox(context, "yu0tseem32w28ke", "id1gu0h92gca3cz"));
+        dropbox.set(new Dropbox(context, "[Client ID]", "[Client Secret]"));
     }
 
     private void initBox() {
-        box.set(new Box(context, "zqgl7zrzxei2c076ss5k9hxf2ivbppfa", "ueG5uWHUarWYQNgldCsCwUwGzvSWlR0Y"));
+        box.set(new Box(context, "[Client ID]", "[Client Secret]"));
     }
 
     private void initGoogleDrive() {
-        googledrive.set(new GoogleDrive(context, "638240013795-966s147hdhg5o4j2mugs67k64pbitrdt.apps.googleusercontent.com", "", "com.cloudrail.fileviewer:/oauth2redirect", ""));
+        googledrive.set(new GoogleDrive(context, "[Client ID]", "", "com.cloudrail.fileviewer:/oauth2redirect", ""));
         ((GoogleDrive) googledrive.get()).useAdvancedAuthentication();
     }
 
     private void initOneDrive() {
-        onedrive.set(new OneDrive(context, "000000004018F12F", "lGQPubehDO6eklir1GQmIuCPFfzwihMo"));
+        onedrive.set(new OneDrive(context, "[Client ID]", "[Client Secret]"));
     }
 
     private void initOneDriveBusiness() {
         onedrivebusiness.set(new OneDriveBusiness(context, "[Client ID]", "[Client Secret]"));
     }
 
-    private void egnyte() {
+    private void initEgnyte() {
         egnyte.set(new Egnyte(context, "[Domain]", "[Client ID]", "[Client Secret]"));
     }
+
+
 
     // --------- Public Methods -----------
     void prepare(Activity context) {
@@ -77,6 +79,8 @@ class Services {
         this.initBox();
         this.initGoogleDrive();
         this.initOneDrive();
+        this.initOneDriveBusiness();
+        this.initEgnyte();
 
         SharedPreferences sharedPreferences = context.getPreferences(Context.MODE_PRIVATE);
 

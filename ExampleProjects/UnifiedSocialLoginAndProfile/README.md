@@ -62,69 +62,58 @@ Successfully connected to Mongo DB
 Locate the following piece of code within your *ChooseService.java* (starting from line 45) and replace the placeholders with your own credentials:
 
 ````java
-            switch (v.getId()) {
-                case R.id.Facebook: {
-                    profile = new Facebook(mContext, "[Client Identifier]", "[Client Secret]");
-                    break;
-                }
-                case R.id.Twitter: {
-                    profile = new Twitter(mContext, "[Client Identifier]", "[Client Secret]");
-                    break;
-                }
-                case R.id.GooglePlus: {
-                    profile = new GooglePlus(mContext, "[Client Identifier]", "[Client Secret]");
-                    break;
-                }
-                case R.id.LinkedIn: {
-                    profile = new LinkedIn(mContext, "[Client Identifier]", "[Client Secret]");
-                    break;
-                }
-                case R.id.GitHub: {
-                    profile = new GitHub(mContext, "[Client Identifier]", "[Client Secret]");
-                    break;
-                }
-                case R.id.Heroku: {
-                    profile = new Heroku(mContext, "[Client Identifier]", "[Client Secret]");
-                    break;
-                }
-                case R.id.Instagram: {
-                    profile = new Instagram(mContext, "[Client Identifier]", "[Client Secret]");
-                    break;
-                }
-                case R.id.producthunt: {
-                    profile = new ProductHunt(mContext, "[Client Identifier]", "[Client Secret]");
-                    break;
-                }
-                case R.id.slack: {
-                    profile = new Slack(mContext, "[Client Identifier]", "[Client Secret]");
-                    break;
-                }
-                case R.id.WindowsLive: {
-                    profile = new MicrosoftLive(mContext, "[Client Identifier]", "[Client Secret]");
-                    break;
-                }
-                case R.id.Yahoo: {
-                    profile = new Yahoo(mContext, "[Client Identifier]", "[Client Secret]");
-                    break;
-                }
-                default:
-                    throw new RuntimeException("Unknown Button ID!!");
-            }
+switch (v.getId()) {
+    case R.id.Facebook: {
+        profile = new Facebook(mContext, "[Client Identifier]", "[Client Secret]");
+        break;
+    }
+    case R.id.Twitter: {
+        profile = new Twitter(mContext, "[Client Identifier]", "[Client Secret]");
+        break;
+    }
+    case R.id.GooglePlus: {
+        profile = new GooglePlus(mContext, "[Client Identifier]", "[Client Secret]");
+        break;
+    }
+    case R.id.LinkedIn: {
+        profile = new LinkedIn(mContext, "[Client Identifier]", "[Client Secret]");
+        break;
+    }
+    case R.id.GitHub: {
+        profile = new GitHub(mContext, "[Client Identifier]", "[Client Secret]");
+        break;
+    }
+    case R.id.Heroku: {
+        profile = new Heroku(mContext, "[Client Identifier]", "[Client Secret]");
+        break;
+    }
+    case R.id.Instagram: {
+        profile = new Instagram(mContext, "[Client Identifier]", "[Client Secret]");
+        break;
+    }
+    case R.id.producthunt: {
+        profile = new ProductHunt(mContext, "[Client Identifier]", "[Client Secret]");
+        break;
+    }
+    case R.id.slack: {
+        profile = new Slack(mContext, "[Client Identifier]", "[Client Secret]");
+        break;
+    }
+    case R.id.WindowsLive: {
+        profile = new MicrosoftLive(mContext, "[Client Identifier]", "[Client Secret]");
+        break;
+    }
+    case R.id.Yahoo: {
+        profile = new Yahoo(mContext, "[Client Identifier]", "[Client Secret]");
+        break;
+    }
+    default:
+        throw new RuntimeException("Unknown Button ID!!");
+}
 ````
 
 ## Using The App
-The app works as follows:
 
-![Screenshot 1](https://cloudrail.github.io/img/android_demo_socialProfile_screen1.png)
-On startup, the user chooses which Service they want to use.
+![Screenshot 1](https://cloudrail.github.io/img/android_demo_socialProfile.png)
 
-![Screenshot 1](https://cloudrail.github.io/img/android_demo_socialProfile_screen2.png)
-Afterwards, they have to login to the app using the specified Service.
-
-![Screenshot 1](https://cloudrail.github.io/img/android_demo_socialProfile_screen3.png)
-The app will then show some profile information and the user's status that is stored on the local server. When using the profile for the first time, it will be empty.
-
-![Screenshot 1](https://cloudrail.github.io/img/android_demo_socialProfile_screen4.png)
-
-![Screenshot 1](https://cloudrail.github.io/img/android_demo_socialProfile_screen5.png)
-
+On startup, the user chooses which Service they want to use. Afterwards, they are redirected to the specified service's authentication site. The app will then show some profile information that is received from the service and the user's status that is stored on the local server. When using the profile for the first time, the status will be empty.

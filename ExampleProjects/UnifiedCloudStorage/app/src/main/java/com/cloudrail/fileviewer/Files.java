@@ -150,6 +150,14 @@ public class Files extends Fragment {
                 tv.setText("My OneDrive:");
                 break;
             }
+            case 5: {
+                tv.setText("My Egnyte:");
+                break;
+            }
+            case 6: {
+                tv.setText("My OneDrive Business:");
+                break;
+            }
         }
 
         final TextView tv2 = (TextView) v.findViewById(R.id.allocation);

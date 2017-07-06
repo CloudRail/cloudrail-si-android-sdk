@@ -8,41 +8,30 @@ You need to have developer credentials for the services you want to use. [Instru
 Locate the following piece of code within your *MainActivity.java* class and replace the placeholder with your CloudRail API key:
 
 ````java
-        CloudRail.setAppKey("[CloudRail API key]");
+CloudRail.setAppKey("[CloudRail API key]");
 ````
 
 Then, locate this part of code within *ChooseServiceFragment.java* and change the placeholders with your developer credentials.
 
 ````java
-            switch (v.getId()) {
-                case R.id.Facebook: {
-                    service = new Facebook(mContext, "[Client ID]", "[Client Secret]");
-                    break;
-                }
-                case R.id.FacebookPages: {
-                    service = new FacebookPage(mContext, "[PageName]", "[Client ID]", "[Client Secret]");
-                    break;
-                }
-                case R.id.Twitter: {
-                    service = new Twitter(mContext, "[Client ID]", "[Client Secret]");
-                    break;
-                }
-                default:
-                    throw new RuntimeException("Unknown Button ID!!");
-            }
+switch (v.getId()) {
+    case R.id.Facebook: {
+        service = new Facebook(mContext, "[Client ID]", "[Client Secret]");
+        break;
+    }
+    case R.id.FacebookPages: {
+        service = new FacebookPage(mContext, "[PageName]", "[Client ID]", "[Client Secret]");
+        break;
+    }
+    case R.id.Twitter: {
+        service = new Twitter(mContext, "[Client ID]", "[Client Secret]");
+        break;
+    }
+    default:
+        throw new RuntimeException("Unknown Button ID!!");
+}
 ````
 
 ## Using The app
-![Screenshot 1](https://cloudrail.github.io/img/android_demo_socialInteraction_screen1.png)
-At the beginning, the user chooses which service they want to use. They will then be forwarded to the service's login page.
-
-![Screenshot 2](https://cloudrail.github.io/img/android_demo_socialInteraction_screen2.png)
-After logging in, the user can post updates.
-
-![Screenshot 3](https://cloudrail.github.io/img/android_demo_socialInteraction_screen3.png)
-
-![Screenshot 4](https://cloudrail.github.io/img/android_demo_socialInteraction_screen4.png)
-
-![Screenshot 5](https://cloudrail.github.io/img/android_demo_socialInteraction_screen5.png)
-
-![Screenshot 6](https://cloudrail.github.io/img/android_demo_socialInteraction_screen6.png)
+![Screenshot 1](https://cloudrail.github.io/img/android_demo_socialInteraction.png)
+At the beginning, the user chooses which service they want to use. They will then be forwarded to the service's login page. After logging in, the user can post updates and optionally add an image or video.

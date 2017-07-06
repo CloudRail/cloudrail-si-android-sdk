@@ -148,7 +148,7 @@ public class POIResult extends Fragment implements GoogleApiClient.ConnectionCal
     public void onConnected(@Nullable Bundle bundle) {
         try {
             final Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
+            System.out.println("POIResult::lat = " + location.getLatitude());
             new GetPOIsTask().execute(location);
         } catch (SecurityException se) {
             throw new RuntimeException("Missing permission to access location data.");
@@ -164,11 +164,9 @@ public class POIResult extends Fragment implements GoogleApiClient.ConnectionCal
     }
 
     private void initServices(Context context) {
-        poi = new GooglePlaces(context, "AIzaSyBO1nbR0ZaDct5po9vwXapteN7gsQkCEGQ");
-//        poi = new Yelp(context, "iz0cItpo8zES7apeuK_aBQ", "ZGSKN2XmEV8j0melw_PvZX3pZPo",
-//                "zP9c2NmgfYAIclIj6_6J74KJJklRda08", "GQTmYLfx441vsYQphKUb5ctVEc4");
-//        poi = new Foursquare(context, "CHP45LRN1001UWCO2TLU0USWMBXY2OFMAJSPRP5AJ0IBKNSC",
-//                "5VCXTROQNDHUP1TVUYIWNQZOINMMQDVBN2X5GPH5OSDXZSL4");
+        poi = new GooglePlaces(context, "Google Places API Key");
+//        poi = new Yelp(context, "[Yelp Consumer Key]", "[Yelp Consumer Secret]", "[Yelp Token]", "[Yelp Token Secret]");
+//        poi = new Foursquare(context, "[Foursquare Client Identifier]", "[Foursquare Client Secret]");
     }
 
     private static long distFrom(double lat1, double lng1, double lat2, double lng2) {

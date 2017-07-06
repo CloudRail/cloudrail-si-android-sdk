@@ -20,9 +20,9 @@ public class MainActivity extends AppCompatActivity {
     private final static String AUTH_DATA = "AUTH_DATA";
 
     // TODO: Fill in your credentials here
-    private final static String LICENSE_KEY = "<Your License Key>";
-    private final static String DB_CLIENT_ID = "<Dropbox Client ID>";
-    private final static String DB_CLIENT_SECRET = "<Dropbox Client Secret>";
+    private final static String LICENSE_KEY = "5947b1545f3a46262b370388";
+    private final static String DB_CLIENT_ID = "yu0tseem32w28ke";
+    private final static String DB_CLIENT_SECRET = "id1gu0h92gca3cz";
 
     private CloudStorage cs = new Dropbox(this, DB_CLIENT_ID, DB_CLIENT_SECRET);
 

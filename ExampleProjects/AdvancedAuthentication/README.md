@@ -6,6 +6,14 @@ The default method using a WebView is okay if your users trust you and you trust
 If this cannot be asserted, we recommend advanced authentication which requires less trust.
 
 ## How to enable it
+First, you have to find the following line of code and enter your credentials:
+
+```java
+private final static String LICENSE_KEY = "<Your License Key>";
+private final static String DB_CLIENT_ID = "<Dropbox Client ID>";
+private final static String DB_CLIENT_SECRET = "<Dropbox Client Secret>";
+```
+Information on how to get developer credentials for Dropbox can be [found here](https://cloudrail.com/integrations/interfaces/CloudStorage;serviceIds=Dropbox).
 
 In order for the SDK to know that you want to use the advanced method you need to set the following flag:
 
@@ -33,3 +41,9 @@ CloudRail.setAuthenticationResponse(getIntent());
 After doing so, you just trigger the login process again and the SDK will continue the same way as if it would return from the WebView.
 
 There are some things you need to keep in mind when using this method. For instance, when the browser redirects to your app, the app is restarted so you need to make sure that you save any state you need before triggering the authentication process. A way this could be done is shown in this sample, so go ahead and check it out.
+
+
+## Using the app
+Upon clicking the Dropbox Login button, the user will be redirected to an external browser. Here they can check that they are actually using the correct service.
+
+![screenshot1](https://github.com/CloudRail/cloudrail.github.io/raw/master/img/android_demo_advancedAuthentication.png)

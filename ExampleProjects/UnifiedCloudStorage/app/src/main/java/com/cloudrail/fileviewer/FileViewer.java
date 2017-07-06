@@ -115,6 +115,10 @@ public class FileViewer extends AppCompatActivity
             this.navigateToService(3);
         } if (id == R.id.onedrive) {
             this.navigateToService(4);
+        } if (id == R.id.egnyte) {
+            this.navigateToService(5);
+        } if (id == R.id.onedriveBusiness) {
+            this.navigateToService(6);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
