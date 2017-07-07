@@ -6,7 +6,7 @@ It is written for Android and uses the [CloudRail Unified Cloud Storage API](htt
 ## Prerequisites
 You need to have Android Studio ([installation manual](https://developer.android.com/studio/install.html)) installed and need developer credentials for the services you want to use. Instructions on how they can be acquired can be found on our [Unified Cloud Storage API site](https://cloudrail.com/integrations/interfaces/CloudStorage;serviceIds=Box%2CDropbox%2CEgnyte%2CGoogleDrive%2COneDrive%2COneDriveBusiness). You also need a CloudRail API key that you can [get fro free here](https://cloudrail.com/signup).
 
-If you have the necessary keys, find the following piece of code in your *Services.java* file and replace the placeholders with your credentials:
+Find the following piece of code in your *Services.java* file and replace the placeholders with your credentials:
 
 ````java
 private void initDropbox() {
@@ -29,10 +29,11 @@ private void initOneDriveBusiness() {
 private void initEgnyte() {
     egnyte.set(new Egnyte(context, "[Domain]", "[Client ID]", "[Client Secret]"));
 }
-`````
+````
+If you don't want to use a specific service or don't have credentials for it, you can comment it out.
 
 ## Using the app
 
-![screenshot1](https://github.com/CloudRail/cloudrail.github.io/raw/master/img/android_demo_fileViewer_1.png)
+![screenshots 1](https://github.com/CloudRail/cloudrail.github.io/raw/master/img/android_demo_fileViewer_1.png)
 
-![screenshot1](https://github.com/CloudRail/cloudrail.github.io/raw/master/img/android_demo_fileViewer_2.png)
+![screenshots 2](https://github.com/CloudRail/cloudrail.github.io/raw/master/img/android_demo_fileViewer_2.png)

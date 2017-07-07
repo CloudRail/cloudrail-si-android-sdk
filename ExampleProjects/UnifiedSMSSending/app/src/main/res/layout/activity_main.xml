@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cloudrail.unifiedsmssender.MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/cloudrail_logo_mheader" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="CloudRail Unified SMS Sending" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="30dp">
+
+            <RadioButton
+                android:id="@+id/twilioRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Use Twilio"></RadioButton>
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="wrap_content" />
+
+            <RadioButton
+                android:id="@+id/twizoRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use Twizo"></RadioButton>
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="wrap_content" />
+
+            <RadioButton
+                android:id="@+id/nexmoRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use Nexmo"></RadioButton>
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/senderEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="Sender Name"
+            android:inputType="textPersonName"/>
+
+        <EditText
+            android:id="@+id/receiverEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Receiver Phone Number"/>
+
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Message"
+            android:inputType="textMultiLine|textLongMessage" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Send"/>
+
+
+    </LinearLayout>
+</FrameLayout>
