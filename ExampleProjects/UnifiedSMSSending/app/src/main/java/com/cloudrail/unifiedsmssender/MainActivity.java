@@ -26,15 +26,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CloudRail.setAppKey("5947b1545f3a46262b370388");
-        twilio = new Twilio(this, "ACad3651bc2995329e22a95bdc049fb996", "68587c6209dc6de5634c027600bfde0d");
-        twizo = new Twizo(this, "akfy_HLCnSPWvEh5T8r3-KcDeLzSeFpyxaso74DEIrYrdHpX");
-        nexmo = new Nexmo(this, "2bac86cb", "a8c4a5e76f202387");
-// TODO use this before comitting
-//        CloudRail.setAppKey("[Your CloudRail API key]");
-//        twilio = new Twilio(this, "[Twilio API ID]", "[Twilio API Secret]");
-//        twizo = new Twizo(this, "[SendGrid API Key]");
-//        nexmo = new Nexmo(this, "[Nexmo API ID]", "[Nexmo API Secret]");
+        CloudRail.setAppKey("[Your CloudRail API key]");
+        twilio = new Twilio(this, "[Twilio API ID]", "[Twilio API Secret]");
+        twizo = new Twizo(this, "[SendGrid API Key]");
+        nexmo = new Nexmo(this, "[Nexmo API ID]", "[Nexmo API Secret]");
 
 
         Button sendButton = (Button) findViewById(R.id.sendButton);
