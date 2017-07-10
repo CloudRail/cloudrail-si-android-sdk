@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">UnifiedBucketCloudStorage</string>
+
+    <string name="action_create_bucket">create new Bucket</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_delete">Delete</string>
+    <string name="upload_file">Upload file</string>
+    <string name="action_download">Download</string>
+</resources>
