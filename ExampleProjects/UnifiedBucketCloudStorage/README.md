@@ -15,7 +15,7 @@ public final static String AMAZON_ACCESS_KEY = "AKIAJI3FPLEUVE7BNUGQ";
 public final static String AMAZON_SECRET_ACCESS_KEY = "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";
 public final static String AMAZON_REGION = "eu-central-1";
 
-ublic final static String AMAZON_ACCESS_KEY = "";
+public final static String AMAZON_ACCESS_KEY = "";
 public final static String AMAZON_SECRET_ACCESS_KEY = "";
 public final static String AMAZON_REGION = "";
 
