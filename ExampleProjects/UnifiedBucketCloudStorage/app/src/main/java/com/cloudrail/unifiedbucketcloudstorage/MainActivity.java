@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements ServiceSelect.OnS
     public final static String RACKSPACE_API_KEY = "";
     public final static String RACKSPACE_REGION = "";
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

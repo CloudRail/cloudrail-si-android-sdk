@@ -18,7 +18,6 @@ import java.util.List;
 
 public class BucketAdapter extends ArrayAdapter<Bucket> {
     private List<Bucket> data;
-    private BusinessCloudStorage service;
 
     public BucketAdapter(Context context, int resource, List<Bucket> objects) {
         super(context, resource, objects);
