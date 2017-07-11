@@ -71,28 +71,23 @@ public class ChargeAdapter extends ArrayAdapter<Charge> {
                 tvRefunded.setText("refunded");
                 tvRefunded.setVisibility(View.VISIBLE);
             } else {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                }).start();
                 tvRefunded.setVisibility(View.GONE);
             }
         }
         return v;
     }
 
-    private String formatAmount(Long amountL) {
+    private String formatAmount(Long amountL) { // change to currency format
         Double amount = amountL / 100.0;
-        float epsilon = 0.004f; // 4 tenths of a cent
+        float epsilon = 0.004f;
         if (Math.abs(Math.round(amount) - amount) < epsilon) {
-            return String.format("%10.0f", amount); // sdb
+            return String.format("%10.0f", amount);
         } else {
-            return String.format("%10.2f", amount); // dj_segfault
+            return String.format("%10.2f", amount);
         }
     }
 
-    private String formatTime(Long seconds) {
+    private String formatTime(Long seconds) {   // change to human-readable format
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY HH:MM");
         Date resultdate = new Date(seconds * 1000);
 

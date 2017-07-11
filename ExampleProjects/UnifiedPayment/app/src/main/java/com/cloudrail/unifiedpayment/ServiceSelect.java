@@ -46,7 +46,6 @@ public class ServiceSelect extends Fragment {
      *
      * @return A new instance of fragment ServiceSelect.
      */
-    // TODO: Rename and change types and number of parameters
     public static ServiceSelect newInstance() {
         ServiceSelect fragment = new ServiceSelect();
         return fragment;

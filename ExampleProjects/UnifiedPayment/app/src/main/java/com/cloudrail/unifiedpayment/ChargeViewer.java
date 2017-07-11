@@ -17,10 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
@@ -163,37 +160,10 @@ public class ChargeViewer extends Fragment {
                                 }
                                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                                View layout = inflater.inflate(R.layout.display_charge,
-                                        (ViewGroup) ((Activity)context).findViewById(R.id.display_charge_root));
-                                ((TextView)layout.findViewById(R.id.list_item_id_2)).setText(charge.getId());
-                                ((TextView)layout.findViewById(R.id.list_item_price_2)).setText(formatAmount(charge.getAmount()) + charge.getCurrency());
-                                ((TextView)layout.findViewById(R.id.list_item_date_2)).setText(formatTime(charge.getCreated()));
-                                ((TextView)layout.findViewById(R.id.payer_name)).setText("Payer: " + charge.getSource().getFirstName() + "  " + charge.getSource().getLastName());
-                                ((TextView)layout.findViewById(R.id.card_number)).setText("Credit Card: " + charge.getSource().getNumber());
-                                TextView tvStatus = layout.findViewById(R.id.list_item_status_2);
-                                tvStatus.setText(charge.getStatus());
-                                switch(charge.getStatus()) {
-                                    case "succeeded": {
-                                        tvStatus.setTextColor(Color.GREEN);
-                                        break;
-                                    }
-                                    case "pending": {
-                                        tvStatus.setTextColor(Color.YELLOW);
-                                        break;
-                                    }
-                                    case "failed": {
-                                        tvStatus.setTextColor(Color.RED);
-                                        break;
-                                    }
-                                }
-                                if (refunds.size() > 0) {
-                                    ((TextView)layout.findViewById(R.id.refundsTextView)).setText("Refunds:");
-                                } else {
-                                    ((TextView)layout.findViewById(R.id.refundsTextView)).setText("Refunds: none");
-                                }
-                                // create a 300px width and 500px height PopupWindow
+                                View layout = inflater.inflate(R.layout.display_charge, (ViewGroup) ((Activity)context).findViewById(R.id.display_charge_root));
+                                enterContents(layout, charge, refunds);
+
                                 PopupWindow pw = new PopupWindow(layout, 900, 1000, true);
-                                // display the popup in the center
                                 pw.showAtLocation(v, Gravity.CENTER, 0, 0);
 
                                 ListView lv = layout.findViewById(R.id.refunds_list_view);
@@ -202,48 +172,55 @@ public class ChargeViewer extends Fragment {
                         });
                     }
                 }).start();
-/*                List<Refund> refunds = service.getRefundsForCharge(charge.getId());
-                String[] refundStrings = new String[refunds.size()];
-                int i = 0;
-                for (Refund r : refunds) {
-                    refundStrings[i] = r.getAmount() + r.getCurrency();
-                    i++;
-                }
-
-
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.display_charge,
-                        (ViewGroup) ((Activity)context).findViewById(R.id.display_charge_root));
-                // create a 300px width and 500px height PopupWindow
-                PopupWindow pw = new PopupWindow(layout, 300, 500, true);
-                // display the popup in the center
-                pw.showAtLocation(v, Gravity.CENTER, 0, 0);
-*/
-/*                TextView mResultText = (TextView) layout.findViewById(R.id.server_status_text);
-                Button cancelButton = (Button) layout.findViewById(R.id.end_data_send_button);
-                cancelButton.setOnClickListener(cancel_button_click_listener);
-*/            }
+            }
         });
 
         ((TextView)v.findViewById(R.id.text2)).setText(mServiceString);
         return v;
     }
 
-    private String formatTime(Long seconds) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY HH:MM");
-        Date resultdate = new Date(seconds * 1000);
-
-        return sdf.format(resultdate);
+    private void enterContents(View layout, Charge charge, List<Refund> refunds) {
+        ((TextView)layout.findViewById(R.id.list_item_id_2)).setText(charge.getId());
+        ((TextView)layout.findViewById(R.id.list_item_price_2)).setText(formatAmount(charge.getAmount()) + charge.getCurrency());
+        ((TextView)layout.findViewById(R.id.list_item_date_2)).setText(formatTime(charge.getCreated()));
+        ((TextView)layout.findViewById(R.id.payer_name)).setText("Payer: " + charge.getSource().getFirstName() + "  " + charge.getSource().getLastName());
+        ((TextView)layout.findViewById(R.id.card_number)).setText("Credit Card: " + charge.getSource().getNumber());
+        TextView tvStatus = layout.findViewById(R.id.list_item_status_2);
+        tvStatus.setText(charge.getStatus());
+        switch(charge.getStatus()) {
+            case "succeeded": {
+                tvStatus.setTextColor(Color.GREEN);
+                break;
+            }
+            case "pending": {
+                tvStatus.setTextColor(Color.YELLOW);
+                break;
+            }
+            case "failed": {
+                tvStatus.setTextColor(Color.RED);
+                break;
+            }
+        }
+        if (refunds.size() > 0) {
+            ((TextView)layout.findViewById(R.id.refundsTextView)).setText("Refunds:");
+        } else {
+            ((TextView)layout.findViewById(R.id.refundsTextView)).setText("Refunds: none");
+        }
     }
 
-    private String formatAmount(Long amountL) {
-        Double amount = amountL / 100.0;
-        float epsilon = 0.004f; // 4 tenths of a cent
-        if (Math.abs(Math.round(amount) - amount) < epsilon) {
-            return String.format("%10.0f", amount); // sdb
-        } else {
-            return String.format("%10.2f", amount); // dj_segfault
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh: {
+                refreshList();
+                break;
+            }
+            case R.id.action_create_charge: {
+                createCharge();
+                break;
+            }
         }
+        return true;
     }
 
     private void refundCharge(final Charge charge) {
@@ -291,48 +268,61 @@ public class ChargeViewer extends Fragment {
         dialogBuilder.setView(v);
 
         dialogBuilder.setTitle("Add new Charge")
-                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                          @Override
-                          public void onClick(DialogInterface dialog, int which) { dialog.cancel(); }})
-                     .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                         @Override
-                         public void onClick(DialogInterface dialogInterface, int i) {
-                             final Long amount = Long.parseLong(((EditText) v.findViewById(R.id.amount)).getText().toString());
-                             final String currency = ((EditText) v.findViewById(R.id.currency)).getText().toString();
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) { dialog.cancel(); }})
+                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        final Long amount = Long.parseLong(((EditText) v.findViewById(R.id.amount)).getText().toString());
+                        final String currency = ((EditText) v.findViewById(R.id.currency)).getText().toString();
 
-                             String cvc = ((EditText) v.findViewById(R.id.cvc)).getText().toString();
-                             Long expire_month = Long.parseLong(((EditText) v.findViewById(R.id.expire_month)).getText().toString());
-                             Long expire_year = Long.parseLong(((EditText) v.findViewById(R.id.expire_year)).getText().toString());
-                             String number = ((EditText) v.findViewById(R.id.number)).getText().toString();
-                             String type = ((EditText) v.findViewById(R.id.type)).getText().toString();
-                             String firstName = ((EditText) v.findViewById(R.id.firstName)).getText().toString();
-                             String lastName = ((EditText) v.findViewById(R.id.lastName)).getText().toString();
+                        String cvc = ((EditText) v.findViewById(R.id.cvc)).getText().toString();
+                        Long expire_month = Long.parseLong(((EditText) v.findViewById(R.id.expire_month)).getText().toString());
+                        Long expire_year = Long.parseLong(((EditText) v.findViewById(R.id.expire_year)).getText().toString());
+                        String number = ((EditText) v.findViewById(R.id.number)).getText().toString();
+                        String type = ((EditText) v.findViewById(R.id.type)).getText().toString();
+                        String firstName = ((EditText) v.findViewById(R.id.firstName)).getText().toString();
+                        String lastName = ((EditText) v.findViewById(R.id.lastName)).getText().toString();
 
-                             Address address = new Address();
-                             address.setLine1(((EditText) v.findViewById(R.id.line1)).getText().toString());
-                             address.setLine2(((EditText) v.findViewById(R.id.line2)).getText().toString());
-                             address.setPostalCode(((EditText) v.findViewById(R.id.postalCode)).getText().toString());
-                             address.setCountry(((EditText) v.findViewById(R.id.country)).getText().toString());
-                             address.setCity(((EditText) v.findViewById(R.id.city)).getText().toString());
-                             address.setState(((EditText) v.findViewById(R.id.state)).getText().toString());
+                        Address address = new Address();
+                        address.setLine1(((EditText) v.findViewById(R.id.line1)).getText().toString());
+                        address.setLine2(((EditText) v.findViewById(R.id.line2)).getText().toString());
+                        address.setPostalCode(((EditText) v.findViewById(R.id.postalCode)).getText().toString());
+                        address.setCountry(((EditText) v.findViewById(R.id.country)).getText().toString());
+                        address.setCity(((EditText) v.findViewById(R.id.city)).getText().toString());
+                        address.setState(((EditText) v.findViewById(R.id.state)).getText().toString());
 
-                             final CreditCard creditCard = new CreditCard(cvc, expire_month, expire_year, number, type, firstName, lastName, address);
+                        final CreditCard creditCard = new CreditCard(cvc, expire_month, expire_year, number, type, firstName, lastName, address);
 
-                             new Thread(new Runnable() {
-                                 @Override
-                                 public void run() {
-                                     service.createCharge(amount, currency, creditCard);
-                                     refreshList();
-                                 }
-                             }).start();
-                         }
-                     });
-
-
-//        EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
-//        editText.setText("test label");
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                service.createCharge(amount, currency, creditCard);
+                                refreshList();
+                            }
+                        }).start();
+                    }
+                });
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
+    }
+
+    private String formatTime(Long seconds) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY HH:MM");
+        Date resultdate = new Date(seconds * 1000);
+
+        return sdf.format(resultdate);
+    }
+
+    private String formatAmount(Long amountL) {
+        Double amount = amountL / 100.0;
+        float epsilon = 0.004f; // 4 tenths of a cent
+        if (Math.abs(Math.round(amount) - amount) < epsilon) {
+            return String.format("%10.0f", amount); // sdb
+        } else {
+            return String.format("%10.2f", amount); // dj_segfault
+        }
     }
 
     @Override
@@ -343,35 +333,13 @@ public class ChargeViewer extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
             this.context = context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-//        mListener = null;
         context = null;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_refresh: {
-                refreshList();
-                break;
-            }
-            case R.id.action_create_charge: {
-                createCharge();
-                break;
-            }
-        }
-        return true;
     }
 
     private void refreshList() {
@@ -379,7 +347,9 @@ public class ChargeViewer extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final List<Charge> items = service.listCharges(System.currentTimeMillis() - 1000*3600*24*365, System.currentTimeMillis(), null);    // get data for 1 year
+                long now = System.currentTimeMillis();
+                long oneYearAgo = now - 1000*3600*24*365;
+                final List<Charge> items = service.listCharges(oneYearAgo, now, null);
 
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
