@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/display_charge_root"
+    android:background="#dddddd"
+    android:padding="40dp">
+
+    <TextView
+        android:id="@+id/list_item_id_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Light.Widget.PopupMenu.Small"
+        android:text="ID"/>
+    <TextView
+        android:id="@+id/list_item_price_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="price"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/list_item_date_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="date"/>
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="0dp" />
+        <TextView
+            android:id="@+id/list_item_status_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="status"/>
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Payer"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:id="@+id/payer_name"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Credit Card"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:id="@+id/card_number"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Refunds:"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:id="@+id/refundsTextView"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/refunds_list_view">
+    </ListView>
+
+</LinearLayout>

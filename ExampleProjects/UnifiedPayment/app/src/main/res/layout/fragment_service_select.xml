@@ -1,0 +1,53 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.cloudrail.unifiedpayment.ServiceSelect">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/cloudrail_logo_mheader"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="CloudRail Unified Payment" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="100dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Choose your service:"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
+            <Button
+                android:id="@+id/paypalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PayPal"/>
+            <Button
+                android:id="@+id/stripeButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stripe"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

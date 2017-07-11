@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <CheckedTextView
+        android:id="@+id/list_item_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Light.Widget.PopupMenu.Small"
+        android:text="ID"/>
+    <CheckedTextView
+        android:id="@+id/list_item_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="price"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <CheckedTextView
+            android:id="@+id/list_item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="date"/>
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="0dp" />
+        <CheckedTextView
+            android:id="@+id/list_item_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="status"/>
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="0dp" />
+        <CheckedTextView
+            android:id="@+id/list_item_refunded"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="refunded"
+            android:textColor="#0000ff"
+            android:visibility="visible"/>
+    </LinearLayout>
+
+</LinearLayout>
