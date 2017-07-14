@@ -4,9 +4,9 @@ package com.cloudrail.poifinder;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
@@ -16,7 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.HeaderViewListAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.cloudrail.si.interfaces.PointsOfInterest;
 import com.cloudrail.si.services.Foursquare;
@@ -40,10 +43,11 @@ public class POIResult extends Fragment implements GoogleApiClient.ConnectionCal
     private static final String ARG_CATEGORY = "category";
 
     private String mCategory;
-    private PointsOfInterest poi;
+    private List<PointsOfInterest> poiServices;
+    private PointsOfInterest googlePois;
+    private List<ListView> listViews;
     private GoogleApiClient mGoogleApiClient;
     private Context context;
-    private ListView listView;
 
 
     public POIResult() {
@@ -91,21 +95,40 @@ public class POIResult extends Fragment implements GoogleApiClient.ConnectionCal
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_poiresult, container, false);
 
-        listView = (ListView) v.findViewById(R.id.poiList);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                POIAdapter poiAdapter = (POIAdapter) listView.getAdapter();
-                Pair<POI, Long> item = poiAdapter.getItem(position);
-                com.cloudrail.si.types.Location location = item.first.getLocation();
-
-                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + location.getLatitude() + "," +
-                        location.getLongitude() + "(" + Uri.encode(item.first.getName()) + ")");
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
+        LinearLayout layout = (LinearLayout) v.findViewById(R.id.poiFragment);
+        listViews = new ArrayList<ListView>();
+        for (int i = 0; i < poiServices.size(); i++) {
+            final ListView listView = new ListView(context);
+            listView.setScrollbarFadingEnabled(false);
+            if (i%2 == 1) {
+                listView.setBackgroundColor(0xFFBBBBBB);
             }
-        });
+
+            TextView header = new TextView(context);
+            header.setText(poiServices.get(i).toString());
+            header.setTextAppearance(context, android.R.style.TextAppearance_Medium);
+
+            listView.addHeaderView(header);
+
+            listViews.add(listView);
+            layout.addView(listView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1));
+            System.out.println("adding listview " + i);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    POIAdapter poiAdapter = (POIAdapter) ((HeaderViewListAdapter)listView.getAdapter()).getWrappedAdapter();
+                    Pair<POI, Long> item = poiAdapter.getItem(position);
+                    com.cloudrail.si.types.Location location = item.first.getLocation();
+
+                    Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + location.getLatitude() + "," +
+                            location.getLongitude() + "(" + Uri.encode(item.first.getName()) + ")");
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    startActivity(mapIntent);
+                }
+            });
+        }
 
         return v;
     }
@@ -149,7 +172,9 @@ public class POIResult extends Fragment implements GoogleApiClient.ConnectionCal
         try {
             final Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             System.out.println("POIResult::lat = " + location.getLatitude());
-            new GetPOIsTask().execute(location);
+            for (int i = 0; i < poiServices.size(); i++) {
+                getPOIs(i, location);
+            }
         } catch (SecurityException se) {
             throw new RuntimeException("Missing permission to access location data.");
         }
@@ -164,9 +189,10 @@ public class POIResult extends Fragment implements GoogleApiClient.ConnectionCal
     }
 
     private void initServices(Context context) {
-        poi = new GooglePlaces(context, "Google Places API Key");
-//        poi = new Yelp(context, "[Yelp Consumer Key]", "[Yelp Consumer Secret]", "[Yelp Token]", "[Yelp Token Secret]");
-//        poi = new Foursquare(context, "[Foursquare Client Identifier]", "[Foursquare Client Secret]");
+        poiServices = new ArrayList<PointsOfInterest>();
+        poiServices.add(new GooglePlaces(context, "[Google Places API Key]"));
+        poiServices.add(new Yelp(context, "[Yelp Consumer Key]", "[Yelp Consumer Secret]", "[Yelp Token]", "[Yelp Token Secret]"));
+        poiServices.add(new Foursquare(context, "[Foursquare Client Identifier]", "[Foursquare Client Secret]"));
     }
 
     private static long distFrom(double lat1, double lng1, double lat2, double lng2) {
@@ -183,32 +209,35 @@ public class POIResult extends Fragment implements GoogleApiClient.ConnectionCal
         return Math.round(dist * 1000);
     }
 
-    private class GetPOIsTask extends AsyncTask<Location, Void, List<Pair<POI, Long>>> {
+    private void getPOIs(final int serviceNumber, final Location location) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                double lat = location.getLatitude();
+                double lng = location.getLongitude();
+                List<String> categories = new ArrayList<>();
+                categories.add(mCategory);
 
-        @Override
-        protected List<Pair<POI, Long>> doInBackground(Location... params) {
-            double lat = params[0].getLatitude();
-            double lng = params[0].getLongitude();
-            List<String> categories = new ArrayList<>();
-            categories.add(mCategory);
+                List<POI> list = poiServices.get(serviceNumber).getNearbyPOIs(lat, lng, 5000L, null, categories);
 
-            List<POI> list = poi.getNearbyPOIs(lat, lng, 5000L, null, categories);
+                final List<Pair<POI, Long>> poiList = new ArrayList<>();
 
-            List<Pair<POI, Long>> res = new ArrayList<>();
+                for (POI poi : list) {
+                    com.cloudrail.si.types.Location location = poi.getLocation();
+                    Pair<POI, Long> elem = new Pair<>(poi, distFrom(lat, lng, location.getLatitude(), location.getLongitude()));
+                    poiList.add(elem);
+                }
 
-            for (POI poi : list) {
-                com.cloudrail.si.types.Location location = poi.getLocation();
-                Pair<POI, Long> elem = new Pair<>(poi, distFrom(lat, lng, location.getLatitude(), location.getLongitude()));
-                res.add(elem);
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        POIAdapter poiAdapter = new POIAdapter(context, R.layout.list_poi, poiList);
+
+                        listViews.get(serviceNumber).setAdapter(poiAdapter);
+                    }
+                });
+
             }
-
-            return res;
-        }
-
-        @Override
-        protected void onPostExecute(List<Pair<POI, Long>> pois) {
-            POIAdapter poiAdapter = new POIAdapter(context, R.layout.list_poi, pois);
-            listView.setAdapter(poiAdapter);
-        }
+        }).start();
     }
 }

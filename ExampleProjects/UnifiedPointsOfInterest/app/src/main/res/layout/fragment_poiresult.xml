@@ -1,11 +1,13 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cloudrail.poifinder.POIResult">
+    tools:context="com.cloudrail.poifinder.POIResult"
+    android:id="@+id/poiFragment"
+    android:orientation="vertical">
 
-    <ListView
+    <!--ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/poiList" />
-</FrameLayout>
+        android:id="@+id/poiList" /-->
+</LinearLayout>

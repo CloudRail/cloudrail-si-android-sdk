@@ -1,25 +1,28 @@
 # Unified Points Of Interest Example
 
-This project demonstrates how CloudRail SI's Points of Interest interface can be used to easily integrate a search for nearby points of interest.
+This project demonstrates how CloudRail SI's Points of Interest interface can be used to easily integrate a search for nearby points of interest using different service providers.
 
 ## Prerequisites
-You need to have a CloudRail API key that you can [get fro free here](https://cloudrail.com/signup). You also need developer credentials for the services you want to use. You can find out how to get them [here](https://cloudrail.com/integrations/interfaces/PointsOfInterest;serviceIds=Foursquare%2CGooglePlaces%2CYelp).
 
-If you have the necessary keys, find the following piece of code in your *POIResult.java* file:
+You need to have Android Studio ([installation manual](https://developer.android.com/studio/install.html)) installed and need developer credentials for the services you want to use. Instructions on how they can be acquired can be found on our [Unified Points Of Interest API site](https://cloudrail.com/integrations/interfaces/PointsOfInterest;serviceIds=Foursquare%2CGooglePlaces%2CYelp). You also need a CloudRail API key that you can [get fro free here](https://cloudrail.com/signup).
+
+Find the following piece of code in your *POIResult.java* file and enter your credentials:
 
 ````java
 private void initServices(Context context) {
-    poi = new GooglePlaces(context, "Google Places API Key");
-//  poi = new Yelp(context, "[Yelp Consumer Key]", "[Yelp Consumer Secret]", "[Yelp Token]", "[Yelp Token Secret]");
-//  poi = new Foursquare(context, "[Foursquare Client Identifier]", "[Foursquare Client Secret]");
-    }
+    poiServices = new ArrayList<PointsOfInterest>();
+    poiServices.add(new GooglePlaces(context, "[Google Places API Key]"));
+    poiServices.add(new Yelp(context, "[Yelp Consumer Key]", "[Yelp Consumer Secret]", "[Yelp Token]", "[Yelp Token Secret]"));
+    poiServices.add(new Foursquare(context, "[Foursquare Client Identifier]", "[Foursquare Client Secret]"));
+}
 ````
-To change the service, you have to add / delete comments.
+
+If you do not want to use a specific service, you can add comments to it.
 
 To run the application, you have to have the location service of your device activated.
 
 ## Using the app
 
-When opening the app, the user can choose for which category they want to see Points of Interest. Depending on the used service, varying POIs will appear, as seen below (left: Google Places, middle: Yelp, right: Foursquare). When clicking on an entry, the user will be redirected to the device's maps app.
+When opening the app, the user can choose for which category they want to see Points of Interest. They will then be presented the POIs found by each of the services in their vicinity. When clicking on an entry, the user will be redirected to the device's maps app.
 
 ![screenshot1](https://github.com/CloudRail/cloudrail.github.io/raw/master/img/android_demo_poiFinder.png)
