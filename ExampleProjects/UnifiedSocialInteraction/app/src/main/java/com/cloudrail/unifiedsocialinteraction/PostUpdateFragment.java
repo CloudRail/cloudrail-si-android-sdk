@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cloudrail.si.exceptions.HttpException;
 import com.cloudrail.si.interfaces.Social;
 
 import java.io.IOException;
@@ -36,17 +37,6 @@ public class PostUpdateFragment extends Fragment {
     private Context mContext;
     private Social mService;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
     public PostUpdateFragment() {
         // Required empty public constructor
     }
@@ -62,8 +52,6 @@ public class PostUpdateFragment extends Fragment {
         PostUpdateFragment fragment = new PostUpdateFragment();
         Bundle args = new Bundle();
         ((PostUpdateFragment) fragment).setService(service);
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,8 +60,6 @@ public class PostUpdateFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -101,7 +87,6 @@ public class PostUpdateFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
         mContext = null;
     }
 
@@ -139,14 +124,24 @@ public class PostUpdateFragment extends Fragment {
                         @Override
                         public void run() {
 
-                            mService.postUpdate(text);
+                            try {
+                                mService.postUpdate(text);
+                                ((Activity) mContext).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(mContext, "update posted", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } catch (HttpException e) {
+                                e.printStackTrace();
+                                ((Activity) mContext).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(mContext, "couldn't post update", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
 
-                            ((Activity) mContext).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(mContext, "update posted", Toast.LENGTH_SHORT);
-                                }
-                            });
                         }
                     }).start();
                     break;

@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements ChooseServiceFrag
         setContentView(R.layout.activity_main);
 
         CloudRail.setAppKey("[CloudRail API key]");
-        CloudRail.setAppKey("5947b1545f3a46262b370388");
 
         browseToServiceSelection();
     }
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements ChooseServiceFrag
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("MainActivity::onActivityResult");
         EditText editText = (EditText) findViewById(R.id.postEditText);
         final String text = editText.getText().toString();
         final Uri uri = data.getData();

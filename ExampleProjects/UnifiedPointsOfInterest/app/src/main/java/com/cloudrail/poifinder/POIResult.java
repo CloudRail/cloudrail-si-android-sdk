@@ -1,16 +1,22 @@
 package com.cloudrail.poifinder;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +26,7 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cloudrail.si.interfaces.PointsOfInterest;
 import com.cloudrail.si.services.Foursquare;
@@ -33,37 +40,29 @@ import com.google.android.gms.location.LocationServices;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link POIResult#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class POIResult extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class POIResult extends Fragment { //implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static final String ARG_CATEGORY = "category";
+    private static final int PERMISSIONS_REQUEST_LOCATION = 42;
 
     private String mCategory;
     private List<PointsOfInterest> poiServices;
-    private PointsOfInterest googlePois;
     private List<ListView> listViews;
-    private GoogleApiClient mGoogleApiClient;
     private Context context;
+    private LocationManager mLocationManager;
+    private LocationListener mLocationListener;
+    private boolean firstRun = true;
 
 
     public POIResult() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onStart() {
-        mGoogleApiClient.connect();
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
     }
 
     /**
@@ -86,6 +85,67 @@ public class POIResult extends Fragment implements GoogleApiClient.ConnectionCal
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mCategory = getArguments().getString(ARG_CATEGORY);
+        }
+
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
+            return;
+        }
+        initLocationListener();
+    }
+
+    private void initLocationListener() {
+        mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+        mLocationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                System.out.println("location changed");
+                if (firstRun) {
+                    firstRun = false;
+                    System.out.println("POIResult::lat = " + location.getLatitude());
+                    for (int i = 0; i < poiServices.size(); i++) {
+                        getPOIs(i, location);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mLocationListener);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    initLocationListener();
+                } else {
+                    Toast.makeText(context, "Locatino permissions not granted!", Toast.LENGTH_SHORT);
+                }
+                return;
+            }
         }
     }
 
@@ -117,8 +177,11 @@ public class POIResult extends Fragment implements GoogleApiClient.ConnectionCal
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (position <= 0) {
+                        return;
+                    }
                     POIAdapter poiAdapter = (POIAdapter) ((HeaderViewListAdapter)listView.getAdapter()).getWrappedAdapter();
-                    Pair<POI, Long> item = poiAdapter.getItem(position);
+                    Pair<POI, Long> item = poiAdapter.getItem(position-1);
                     com.cloudrail.si.types.Location location = item.first.getLocation();
 
                     Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + location.getLatitude() + "," +
@@ -136,56 +199,15 @@ public class POIResult extends Fragment implements GoogleApiClient.ConnectionCal
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         initServices(context);
-
-        // Create an instance of GoogleAPIClient.
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(context)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
         this.context = context;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
         initServices(activity);
-
-        // Create an instance of GoogleAPIClient.
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(activity)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
         context = activity;
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        try {
-            final Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            System.out.println("POIResult::lat = " + location.getLatitude());
-            for (int i = 0; i < poiServices.size(); i++) {
-                getPOIs(i, location);
-            }
-        } catch (SecurityException se) {
-            throw new RuntimeException("Missing permission to access location data.");
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }
 
     private void initServices(Context context) {
@@ -215,6 +237,7 @@ public class POIResult extends Fragment implements GoogleApiClient.ConnectionCal
             public void run() {
                 double lat = location.getLatitude();
                 double lng = location.getLongitude();
+
                 List<String> categories = new ArrayList<>();
                 categories.add(mCategory);
 
@@ -236,7 +259,6 @@ public class POIResult extends Fragment implements GoogleApiClient.ConnectionCal
                         listViews.get(serviceNumber).setAdapter(poiAdapter);
                     }
                 });
-
             }
         }).start();
     }

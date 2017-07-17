@@ -19,7 +19,7 @@ private void initServices(Context context) {
 
 If you do not want to use a specific service, you can add comments to it.
 
-To run the application, you have to have the location service of your device activated.
+To run the application, you have to have the location service of your device activated. When using Android Studio's emulator, you may have to go to its settings and manually send a location update in order for the app to receive a location.
 
 ## Using the app
 
