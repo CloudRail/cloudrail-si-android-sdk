@@ -5,9 +5,16 @@ import com.cloudrail.si.interfaces.Profile;
 import com.cloudrail.si.servicecode.commands.json.jsonsimple.JSONObject;
 import com.cloudrail.si.servicecode.commands.json.jsonsimple.parser.JSONParser;
 import com.cloudrail.si.services.Facebook;
+import com.cloudrail.si.services.GitHub;
 import com.cloudrail.si.services.GooglePlus;
+import com.cloudrail.si.services.Heroku;
+import com.cloudrail.si.services.Instagram;
 import com.cloudrail.si.services.LinkedIn;
+import com.cloudrail.si.services.MicrosoftLive;
+import com.cloudrail.si.services.ProductHunt;
+import com.cloudrail.si.services.Slack;
 import com.cloudrail.si.services.Twitter;
+import com.cloudrail.si.services.Yahoo;
 
 import java.io.IOException;
 
@@ -90,9 +97,16 @@ System.out.println("Communication::appKey= " + CloudRail.getAppKey());
 
     private String getServiceName(Profile profile) {
         if (profile instanceof Facebook) return "Facebook";
+        if (profile instanceof GitHub) return "GitHub";
         if (profile instanceof GooglePlus) return "GooglePlus";
-        if (profile instanceof Twitter) return "Twitter";
+        if (profile instanceof Heroku) return "Heroku";
+        if (profile instanceof Instagram) return "Instagram";
         if (profile instanceof LinkedIn) return "LinkedIn";
+        if (profile instanceof MicrosoftLive) return "MicrosoftLive";
+        if (profile instanceof ProductHunt) return "ProductHunt";
+        if (profile instanceof Slack) return "Slack";
+        if (profile instanceof Twitter) return "Twitter";
+        if (profile instanceof Yahoo) return "Yahoo";
 
         return null;
     }

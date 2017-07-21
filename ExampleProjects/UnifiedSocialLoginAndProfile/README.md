@@ -29,7 +29,7 @@ $ mongo
 Locate the following piece fo code within your *index.js* (line 6):
 
 ````javascript
-cloudrail.Settings.setKey(“[CloudRailKey]”);
+cloudrail.Settings.setKey("[CloudRailKey]");
 ````
 Change the parameter to your CloudRail API key.
 

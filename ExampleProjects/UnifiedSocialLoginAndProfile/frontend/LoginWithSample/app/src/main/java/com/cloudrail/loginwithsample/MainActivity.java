@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements ChooseService.OnT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CloudRail.setAppKey("5947b1545f3a46262b370388");
+        CloudRail.setAppKey("[Your CloudRail Key]");
         setContentView(R.layout.activity_main);
 
         browseToServiceSelection();

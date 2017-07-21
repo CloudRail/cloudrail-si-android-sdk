@@ -70,16 +70,6 @@ public class CloudMetadataAdapter extends ArrayAdapter<CloudMetaData> {
                     img.setImageResource(R.drawable.ic_file_folder);
                 } else {
                     img.setImageResource(R.drawable.ic_editor_insert_drive_file);
-/*                    if (service != null) {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                InputStream is = service.getThumbnail(cmd.getPath());
-                                BitmapDrawable bmd = new BitmapDrawable(BitmapFactory.decodeStream(is));
-                                img.setImageDrawable(bmd);
-                            }
-                        }).start();
-                    }*/
                 }
             }
 

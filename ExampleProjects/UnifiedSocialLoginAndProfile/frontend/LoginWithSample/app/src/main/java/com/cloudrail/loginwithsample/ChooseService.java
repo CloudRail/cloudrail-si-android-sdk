@@ -44,7 +44,7 @@ public class ChooseService extends Fragment {
 
             switch (v.getId()) {
                 case R.id.Facebook: {
-                    profile = new Facebook(mContext, "[Client Identifier]", "[Client Secret]");
+                    profile = new Facebook(mContext, "[Facebook Client Identifier]", "[Facebook Client Secret]");
                     break;
                 }
                 case R.id.Twitter: {
