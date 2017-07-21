@@ -20,9 +20,9 @@ public class MainActivity extends AppCompatActivity {
     private final static String AUTH_DATA = "AUTH_DATA";
 
     // TODO: Fill in your credentials here
-    private final static String LICENSE_KEY = "5947b1545f3a46262b370388";
-    private final static String DB_CLIENT_ID = "yu0tseem32w28ke";
-    private final static String DB_CLIENT_SECRET = "id1gu0h92gca3cz";
+    private final static String LICENSE_KEY = "[Your CloudRail Key]";
+    private final static String DB_CLIENT_ID = "[Dropbox Client Identifier]";
+    private final static String DB_CLIENT_SECRET = "[Dropbox Client Secret]";
 
     private CloudStorage cs = new Dropbox(this, DB_CLIENT_ID, DB_CLIENT_SECRET);
 
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         dbLogin.setOnClickListener(new StartLogin());
 
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+
         if (sharedPreferences.getString(AUTH_DATA, null) != null) {
             /* If there is already a logged in user, load data */
 
@@ -73,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
                     new GetUserName().execute();
                 }
             }.start();
+        } else {
+            TextView tv = (TextView) findViewById(R.id.username);
+            tv.setText("not logged in");
         }
     }
 
@@ -106,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             TextView tv = (TextView) findViewById(R.id.username);
-            tv.setText(s);
+            tv.setText("logged in as " + s);
         }
     }
 }
