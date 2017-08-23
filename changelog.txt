@@ -1,3 +1,11 @@
+- 2.19.0 -
+
+* Add the possibility to send attachments to the Email interface and also introduce GMail as a new integration
+* Update Yelp to their new API
+* Update OneDrive to use the new Microsoft Graph API
+* Egnyte now correctly returns the username
+* Fix an issue within getChildrenPage that occurred in most CloudStorage services
+
 - 2.18.0 -
 
 * Add a search functionality to the CloudStorage interface that is implemented by all relevant services
