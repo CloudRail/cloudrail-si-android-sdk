@@ -1,4 +1,4 @@
-- 2.19.0 -
+- 2.19.1 -
 
 * Add the possibility to send attachments to the Email interface and also introduce GMail as a new integration
 * Update Yelp to their new API

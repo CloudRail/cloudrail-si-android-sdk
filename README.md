@@ -38,7 +38,7 @@ Just add the dependency to your project `build.gradle` file:
 
 ```groovy
 dependencies {  
-  compile 'com.cloudrail:cloudrail-si-android:2.19.0‘
+  compile 'com.cloudrail:cloudrail-si-android:2.19.1‘
 }
 ```
 via [Maven Central](http://search.maven.org/#search|ga|1|a:"cloudrail-si-android")
