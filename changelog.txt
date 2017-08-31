@@ -1,3 +1,8 @@
+- 2.20.0 -
+
+* Release the new video interface containing YouTube, Twitch and Vimeo. This interface allows you to upload and search for videos as well as querying all kinds of metadata.
+* Fix an issue in GMail due to date formats
+
 - 2.19.1 -
 
 * Add the possibility to send attachments to the Email interface and also introduce GMail as a new integration
