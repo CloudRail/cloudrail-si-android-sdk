@@ -43,7 +43,9 @@ class Services {
     }
 
     private void initDropbox() {
-        dropbox.set(new Dropbox(context, "[Client ID]", "[Client Secret]"));
+        Dropbox db = new Dropbox(context, "[Client ID]", "[Client Secret]", "https://auth.cloudrail.com/com.cloudrail.fileviewer", "someState");
+        db.useAdvancedAuthentication();
+        dropbox.set(db);
     }
 
     private void initBox() {
