@@ -1,6 +1,7 @@
 package com.cloudrail.unifiedvideo;
 
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -72,9 +73,9 @@ public class VideoServiceActivity extends AppCompatActivity {
                 public void run() {
                     // run in background
                     try {
-                        File videoFile = new File(uri.getPath());
-                        InputStream stream = new FileInputStream(videoFile);
-                        Long size = videoFile.length();
+                        AssetFileDescriptor desc = getContentResolver().openAssetFileDescriptor(uri, "r");
+                        InputStream stream = desc.createInputStream();
+                        Long size = desc.getLength();
                         String channelId = service.getOwnChannel().getId();
                         String type = getContentResolver().getType(uri);
                         service.uploadVideo("some title", "some description", stream, size, channelId, type);
@@ -97,19 +98,19 @@ public class VideoServiceActivity extends AppCompatActivity {
             case "Twitch":
                 return new Twitch(
                         this,
-                        "6ozfh1e33lk0q6gne9wp9ynvq4fo49",
-                        "3pmumzzork9rws6ftu2cwov5v03yka"
+                        "",
+                        ""
                 );
             case "Vimeo":
                 return new Vimeo(
                         this,
-                        "660e0bc0ea56d413e1c932ad28b046405008865d",
-                        "v82zukoR8Fzhmr47Ia5yrLieClJSUnyhTNqI7VCUMx57LRpfwfF7X3T3Jmut1R3KKqFGsCs7yZbIgx50Cevg/eyHTrES8JTzB1bOhTgRDQjzqy+qslksfwvAEVUxnTm3"
+                        "",
+                        ""
                 );
         }
         return new YouTube(
                 this,
-                "141870010879-1b96e5c9gc89t6920bbm23emi3jnlgbc.apps.googleusercontent.com",
+                "",
                 "",
                 "com.cloudrail.unifiedvideo:/oauth2redirect",
                 "someState"

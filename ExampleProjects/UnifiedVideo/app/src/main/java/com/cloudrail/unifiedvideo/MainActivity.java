@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        CloudRail.setAppKey("5947b1545f3a46262b370388");
+        CloudRail.setAppKey("");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
