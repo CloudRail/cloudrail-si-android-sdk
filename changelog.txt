@@ -1,3 +1,7 @@
+- 2.20.1 -
+
+* Hotfixes for GoogleDrive, GMail and Vimeo
+
 - 2.20.0 -
 
 * Release the new video interface containing YouTube, Twitch and Vimeo. This interface allows you to upload and search for videos as well as querying all kinds of metadata.
