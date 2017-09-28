@@ -1,3 +1,10 @@
+- 2.20.2 -
+
+* Initial version of the Messaging interface released containing two services (Telegram and Line). The Messaging interface allows you to easily build a bot for the included services by offering methods to parse incoming messages into a unified format as well as sending messages back to the communication partner
+* Box: Locating a file within a folder containing more than 100 files was not working properly
+* GoogleDrive: Some files could not be found even though the files existed and the getChildrenPage method was not working properly for large folders
+* CloudStorage: The exists method now returns true for the root folder
+
 - 2.20.1 -
 
 * Hotfixes for GoogleDrive, GMail and Vimeo
