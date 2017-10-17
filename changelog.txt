@@ -1,3 +1,10 @@
+- 2.21.0 -
+
+* Full release of the messaging interface including FacebookMessanger, Viber, Line and Telegram
+* Bugfix for Amazon S3: The getChildrenPage() method was not returning more than 1000 files
+* OneDriveBusiness is now using the new Microsoft Graph API
+* GoogleDrive now uses the state parameter during authentication
+
 - 2.20.2 -
 
 * Initial version of the Messaging interface released containing two services (Telegram and Line). The Messaging interface allows you to easily build a bot for the included services by offering methods to parse incoming messages into a unified format as well as sending messages back to the communication partner
