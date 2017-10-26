@@ -54,6 +54,8 @@ Payment | PayPal, Stripe
 Email | Maljet, Sendgrid
 SMS | Twilio, Nexmo
 Point of Interest | Google Places, Foursquare, Yelp
+Video | YouTube, Twitch, Vimeo
+Messaging | FacebookMessenger, Telegram, Line, Viber
 ---
 ### Cloud Storage Interface:
 
@@ -210,7 +212,7 @@ CloudRail.setAppKey("[CloudRail License Key]");
 
 
 // final Social social = new Twitter(this, "[clientID]", "[clientSecret]");
-// final Social social = new Facebook(this, "[pageName]", "[clientID]", "[clientSecret]");
+// final Social social = new FacebookPage(this, "[pageName]", "[clientID]", "[clientSecret]");
 final Social social = new Facebook(this, "[clientID]", "[clientSecret]");
 new Thread() {
     @Override
@@ -334,6 +336,73 @@ new Thread() {
     public void run() {
         List<POI> res = poi.getNearbyPOIs(49.4557091, 8.5279138, 1000L, "restaurant", null);
         Log.i("info", "POIs: " + res.toString());    
+    }
+}.start();
+````
+---
+### Video Interface:
+
+* YouTube
+* Twitch
+* Vimeo
+
+#### Features
+
+* Get channel metadata
+* List videos for a channel
+* Get video metadata
+* Search for videos
+* Upload a video
+
+[Full Documentation](https://cloudrail.com/integrations/interfaces/Video;platformId=Android)
+#### Code Example
+
+```` java
+CloudRail.setAppKey("[CloudRail License Key]");
+
+
+// final Video video = new Twitch(this, "[clientID]", "[clientSecret]");
+// final Video video = new Vimeo(this, "[clientID]", "[clientSecret]");
+final Video video = new YouTube(this, "[clientID]", "", "com.cloudrail.example:/auth", "state");
+new Thread() {
+    @Override
+    public void run() {
+        List<VideoMetaData> res = video.searchVideos("CloudRail", 0L, 50L);
+        Log.i("info", "Videos: " + res.toString());    
+    }
+}.start();
+````
+---
+### Messaging Interface:
+
+* FacebookMessenger
+* Telegram
+* Line
+* Viber
+
+#### Features
+
+* Send text messages
+* Send files, images, videos and audios
+* Parse a message received on your webhook
+* Download the content of an attachment sent to your webhook
+
+[Full Documentation](https://cloudrail.com/integrations/interfaces/Messaging;platformId=Android)
+#### Code Example
+
+```` java
+CloudRail.setAppKey("[CloudRail License Key]");
+
+
+// final Messaging messaging = new Line(this, "[BotToken]");
+// final Messaging messaging = new Telegram(this, "[BotToken]", "[WebhookUrl]");
+// final Messaging messaging = new Viber(this, "[BotToken]", "[WebhookUrl]", "[BotName]");
+final Messaging messaging = new FacebookMessenger(this, "[BotToken]");
+new Thread() {
+    @Override
+    public void run() {
+        Message res = messaging.sendMessage("92hf2f83f9", "Greetings from CloudRail!");
+        Log.i("info", "Message: " + res.toString());    
     }
 }.start();
 ````
