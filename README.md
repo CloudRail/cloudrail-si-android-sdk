@@ -16,7 +16,7 @@ CloudRail is an API integration solution which abstracts multiple APIs from diff
 
 **Current Interfaces:**
 <p align="center">
-  <img width="800px" src="http://cloudrail.github.io/img/available_interfaces_v2.png"/>
+  <img width="800px" src="http://cloudrail.github.io/img/available_interfaces_v3.png"/>
 </p>
 
 ---
