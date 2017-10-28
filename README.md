@@ -55,7 +55,7 @@ Email | Maljet, Sendgrid
 SMS | Twilio, Nexmo
 Point of Interest | Google Places, Foursquare, Yelp
 Video | YouTube, Twitch, Vimeo
-Messaging | FacebookMessenger, Telegram, Line, Viber
+Messaging | Facebook Messenger, Telegram, Line, Viber
 ---
 ### Cloud Storage Interface:
 
@@ -375,7 +375,7 @@ new Thread() {
 ---
 ### Messaging Interface:
 
-* FacebookMessenger
+* Facebook Messenger
 * Telegram
 * Line
 * Viber
