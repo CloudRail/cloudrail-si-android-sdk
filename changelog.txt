@@ -1,3 +1,7 @@
+- 2.21.1 -
+
+* Add a new method to the Messaging interface for posting structured content / messages including buttons
+
 - 2.21.0 -
 
 * Full release of the messaging interface including FacebookMessanger, Viber, Line and Telegram
