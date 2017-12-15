@@ -1,3 +1,8 @@
+- 2.21.4 -
+
+* Bug fixes for GMail and Telegram
+* Add SlackBot as a new service for the messaging interface
+
 - 2.21.3 -
 
 * Add a fix for AmazonS3's listFiles method
