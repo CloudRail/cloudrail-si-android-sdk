@@ -1,3 +1,8 @@
+- 2.21.5 -
+
+* Add PCloud as a new service to the CloudStorage interface
+* Minor bugfixes in GoogleDrive and Slack
+
 - 2.21.4 -
 
 * Bug fixes for GMail and Telegram
