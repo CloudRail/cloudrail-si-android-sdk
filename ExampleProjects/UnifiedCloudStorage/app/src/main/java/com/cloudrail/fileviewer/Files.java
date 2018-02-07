@@ -339,6 +339,7 @@ public class Files extends Fragment {
             }
             case R.id.action_create_folder: {
                 clickCreateFolder();
+                break;
             }
             case R.id.action_search: {
                 getOwnActivity().onSearchRequested();
