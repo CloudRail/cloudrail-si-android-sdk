@@ -38,7 +38,7 @@ Just add the dependency to your project `build.gradle` file:
 
 ```groovy
 dependencies {  
-  compile 'com.cloudrail:cloudrail-si-android:2.21.0'
+  compile 'com.cloudrail:cloudrail-si-android:2.21.5'
 }
 ```
 via [Maven Central](http://search.maven.org/#search|ga|1|a:"cloudrail-si-android")
@@ -55,7 +55,7 @@ Email | Maljet, Sendgrid
 SMS | Twilio, Nexmo
 Point of Interest | Google Places, Foursquare, Yelp
 Video | YouTube, Twitch, Vimeo
-Messaging | FacebookMessenger, Telegram, Line, Viber
+Messaging | Facebook Messenger, Telegram, Line, Viber
 ---
 ### Cloud Storage Interface:
 
@@ -375,7 +375,7 @@ new Thread() {
 ---
 ### Messaging Interface:
 
-* FacebookMessenger
+* Facebook Messenger
 * Telegram
 * Line
 * Viber

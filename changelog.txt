@@ -1,3 +1,21 @@
+- 2.21.5 -
+
+* Add PCloud as a new service to the CloudStorage interface
+* Minor bugfixes in GoogleDrive and Slack
+
+- 2.21.4 -
+
+* Bug fixes for GMail and Telegram
+* Add SlackBot as a new service for the messaging interface
+
+- 2.21.3 -
+
+* Add a fix for AmazonS3's listFiles method
+
+- 2.21.1 -
+
+* Add a new method to the Messaging interface for posting structured content / messages including buttons
+
 - 2.21.0 -
 
 * Full release of the messaging interface including FacebookMessanger, Viber, Line and Telegram
