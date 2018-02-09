@@ -8,8 +8,8 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_action_delete"/>
     <item
-        android:id="@+id/action_move"
-        android:title="Move"
+        android:id="@+id/action_cut"
+        android:title="Cut"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_compare_arrows_white_24dp"
         />

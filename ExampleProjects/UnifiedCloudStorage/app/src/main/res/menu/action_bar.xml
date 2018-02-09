@@ -8,6 +8,11 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_action_autorenew"/>
     <item
+        android:id="@+id/action_paste"
+        android:title="@string/action_paste"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_content_paste_white_24dp"/>
+    <item
         android:id="@+id/action_upload"
         android:title="@string/action_upload"
         app:showAsAction="ifRoom"

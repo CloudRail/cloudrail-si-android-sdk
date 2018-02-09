@@ -158,7 +158,7 @@ public class FileViewer extends AppCompatActivity
             if (fragment != null) {
                 fragment.search(query);
             }
-        } else if(intent.getCategories().contains("android.intent.category.BROWSABLE")) {
+        } else {
             CloudRail.setAuthenticationResponse(intent);
         }
         super.onNewIntent(intent);

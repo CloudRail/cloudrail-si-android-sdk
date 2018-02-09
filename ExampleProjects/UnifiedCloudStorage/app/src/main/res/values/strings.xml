@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">File Viewer</string>
     <string name="action_refresh">Refresh</string>
+    <string name="action_paste">Paste</string>
     <string name="action_upload">Upload</string>
     <string name="action_delete">Delete</string>
     <string name="dropbox">Dropbox</string>

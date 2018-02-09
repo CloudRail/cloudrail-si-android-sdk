@@ -11,12 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,7 +36,6 @@ import com.cloudrail.si.interfaces.CloudStorage;
 import com.cloudrail.si.types.SpaceAllocation;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,6 +61,9 @@ public class Files extends Fragment {
     private String currentPath;
     private View selectedItem;
     private ProgressBar spinner;
+    private String pasteMethod;
+    private String pasteFromPath;
+    private String pasteFileName;
 
     private Context context;
     private Activity activity = null;
@@ -263,8 +261,8 @@ public class Files extends Fragment {
                                 createShareLink();
                                 return true;
                             }
-                            case R.id.action_move: {
-                                moveItem();
+                            case R.id.action_cut: {
+                                cutItem();
                                 return true;
                             }
                             default:
@@ -339,6 +337,9 @@ public class Files extends Fragment {
             }
             case R.id.action_create_folder: {
                 clickCreateFolder();
+            }
+            case R.id.action_paste: {
+                pasteItem();
             }
             case R.id.action_search: {
                 getOwnActivity().onSearchRequested();
@@ -531,11 +532,58 @@ public class Files extends Fragment {
     }
 
     private void copyItem() {
-
+        TextView tv = (TextView) this.selectedItem.findViewById(R.id.list_item);
+        final String name = (String) tv.getText();
+        String path = currentPath;
+        if(!currentPath.equals("/")) {
+            path += "/";
+        }
+        path += name;
+        pasteFromPath = path;
+        pasteFileName = name;
+        pasteMethod = "copy";
     }
 
-    private void moveItem() {
+    private void cutItem() {
+        TextView tv = (TextView) this.selectedItem.findViewById(R.id.list_item);
+        final String name = (String) tv.getText();
+        String path = currentPath;
+        if(!currentPath.equals("/")) {
+            path += "/";
+        }
+        path += name;
+        pasteFromPath = path;
+        pasteFileName = name;
+        pasteMethod = "move";
+    }
 
+    private void pasteItem() {
+        if (pasteFromPath == null || pasteMethod == null || pasteFileName == null) {
+            Toast.makeText(context, "No file selected for pasting", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        this.startSpinner();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String path = currentPath;
+                if(!currentPath.equals("/")) {
+                    path += "/";
+                }
+                String to = path + pasteFileName;
+                switch (pasteMethod) {
+                    case "move":
+                        getService().move(pasteFromPath, to);
+                        break;
+                    case "copy":
+                        getService().copy(pasteFromPath, to);
+                        break;
+                    default:
+                        break;
+                }
+                updateList();
+            }
+        }).start();
     }
 
     private void createShareLink() {
