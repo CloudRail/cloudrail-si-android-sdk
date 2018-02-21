@@ -341,9 +341,11 @@ public class Files extends Fragment {
             }
             case R.id.action_paste: {
                 pasteItem();
+                break;
             }
             case R.id.action_search: {
                 getOwnActivity().onSearchRequested();
+                break;
             }
         }
         return true;
@@ -568,15 +570,22 @@ public class Files extends Fragment {
             @Override
             public void run() {
                 String path = currentPath;
+
+
+                List<CloudMetaData> cmds = getService().getChildren(path);
                 if(!currentPath.equals("/")) {
                     path += "/";
                 }
-                String to = path + pasteFileName;
+                String[] pasteFileNameParts = pasteFileName.split("\\.", 2);
+                pasteFileNameParts[0] = path + pasteFileNameParts[0];
+                String to = findSafeName(cmds, pasteFileNameParts[0], pasteFileNameParts[1], 0);
+
                 switch (pasteMethod) {
                     case "move":
                         getService().move(pasteFromPath, to);
                         break;
                     case "copy":
+                        System.out.println(to);
                         getService().copy(pasteFromPath, to);
                         break;
                     default:
@@ -585,6 +594,21 @@ public class Files extends Fragment {
                 updateList();
             }
         }).start();
+    }
+
+    private String findSafeName(List<CloudMetaData> cmds, String fileNameStart, String fileNameEnd, int i) {
+        String checkName = fileNameStart;
+        if (i!=0) {
+            checkName += "(" + i + ")";
+        }
+        checkName += "." + fileNameEnd;
+        for (CloudMetaData cmd : cmds) {
+            if (checkName.equals(cmd.getPath())) {
+                return findSafeName(cmds, fileNameStart, fileNameEnd, i+1);
+            }
+        }
+        System.out.println("returning checkName " + checkName);
+        return checkName;
     }
 
     private void createShareLink() {
