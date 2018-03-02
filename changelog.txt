@@ -1,3 +1,8 @@
+- 2.21.7 -
+
+* GoogleDrive, OneDrive: Bugfix for certain special characters
+* OneDrive, OneDrive Business: Shared files and folders are now filtered from the responses since they were causing issues
+
 - 2.21.6 -
 
 * Add a new method to the CloudStorage interface that allows uploading files with a custom modified date
