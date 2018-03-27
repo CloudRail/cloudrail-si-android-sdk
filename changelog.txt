@@ -1,3 +1,13 @@
+
+- 2.21.9-
+
+* Google Cloud Platform: Implement missing paging in listFiles() method 
+* Egnyte & Google Drive: Minor fixes
+* Google Cloud Platform & Amazon S3: Add missing advanced request feature 
+* Microsoft Azure: Fix listFiles() method and implement advanced request 
+* Yelp: Update to a new API version including a different authentication
+
+
 - 2.21.7 -
 
 * GoogleDrive, OneDrive: Bugfix for certain special characters
