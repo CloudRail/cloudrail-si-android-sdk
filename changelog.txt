@@ -1,3 +1,10 @@
+- 2.22.1 -
+
+* OneDrive: Attach missing state parameter to authentication url (Patrick)
+* Facebook: Removed user_about_me scope which shows description. This is removed from Facebook (Mujtaba)
+* Google Cloud: Added object name encoding to google cloud. (Supriya)
+
+
 - 2.22.0 -
 
 * Added new method to Business Cloud Storage to list files with prefix.
