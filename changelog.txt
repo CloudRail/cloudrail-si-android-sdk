@@ -1,7 +1,13 @@
+- 2.22.3 -
+
+* OneDriveBusiness: Fix  auth process
+* GoogleDrive: Fix fileExists method 
+* Backblaze: Fix in Advance Request
+
 - 2.22.2 -
 
 * OneDriveBusiness: Fix missing url encoding of the client secret on refreshing tokens (Patrick)
-*MicrosoftAzure: Fix an issue in the advanced request function (Patrick)
+* MicrosoftAzure: Fix an issue in the advanced request function (Patrick)
 
 - 2.22.1 -
 
