@@ -1,7 +1,7 @@
 # Unified Email Sending Example
 This is a simple app that demonstrates how you can use the CloudRail SI API to integrate different Email sending services.
 ## Prerequisites
-You need to have Android Studio ([installation manual](https://developer.android.com/studio/install.html)) installed and need developer credentials for the services you want to use. Instructions on how they can be acquired can be found on our [Unified Email Sending API site](https://cloudrail.com/integrations/interfaces/Email;serviceIds=SendGrid%2CMailJet). You also need a CloudRail API key that you can [get fro free here](https://cloudrail.com/signup).
+You need to have Android Studio ([installation manual](https://developer.android.com/studio/install.html)) installed and need developer credentials for the services you want to use. Instructions on how they can be acquired can be found on our [Unified Email Sending API site](https://cloudrail.com/integrations/interfaces/Email;serviceIds=SendGrid%2CMailJet). You also need a CloudRail API key that you can [get here](https://cloudrail.com/signup).
 
 Find the following piece of code in your *MainActivity.java* file and replace the placeholders with your credentials:
 

@@ -1,9 +1,9 @@
 # Unified Bucket Cloud Storage Example
 
-This demo application lets you browse and download files saved with a bucket cloud service (Amazon Web Services S3, Backblaze, Google Cloud Platform, Microsoft Azure Storage or Rackspace). It is written for Android and uses the [CloudRail Unified Bucket Cloud Storage API](https://cloudrail.com/integrations/interfaces/BusinessCloudStorage). Want to build something similar? [Get started with CloudRail](https://cloudrail.com/signup) today, it's free.
+This demo application lets you browse and download files saved with a bucket cloud service (Amazon Web Services S3, Backblaze, Google Cloud Platform, Microsoft Azure Storage or Rackspace). It is written for Android and uses the [CloudRail Unified Bucket Cloud Storage API](https://cloudrail.com/integrations/interfaces/BusinessCloudStorage). Want to build something similar? [Get started with CloudRail](https://cloudrail.com/signup) today.
 
 ## Prerequisites
-You need to have Android Studio ([installation manual](https://developer.android.com/studio/install.html)) installed and need developer credentials for the services you want to use. Instructions on how they can be acquired can be found on our [Unified Bucket Cloud Storage API site](https://cloudrail.com/integrations/interfaces/BusinessCloudStorage;serviceIds=AmazonS3%2CBackblaze%2CGoogleCloudPlatform%2CMicrosoftAzure%2CRackspace). You also need a CloudRail API key that you can [get fro free here](https://cloudrail.com/signup).
+You need to have Android Studio ([installation manual](https://developer.android.com/studio/install.html)) installed and need developer credentials for the services you want to use. Instructions on how they can be acquired can be found on our [Unified Bucket Cloud Storage API site](https://cloudrail.com/integrations/interfaces/BusinessCloudStorage;serviceIds=AmazonS3%2CBackblaze%2CGoogleCloudPlatform%2CMicrosoftAzure%2CRackspace). You also need a CloudRail API key that you can [get here](https://cloudrail.com/signup).
 
 
 Find the following piece of code in your *MainActivity.java* file and fill in your credentials:
