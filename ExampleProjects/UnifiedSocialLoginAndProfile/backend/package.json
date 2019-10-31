@@ -12,6 +12,6 @@
     "cloudrail-si": "^2.5.0",
     "crypto": "0.0.3",
     "express": "^4.14.0",
-    "mongoose": "^4.5.3"
+    "mongoose": "^5.7.7"
   }
 }
